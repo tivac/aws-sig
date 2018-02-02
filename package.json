@@ -1,0 +1,23 @@
+{
+  "name": "aws-sig",
+  "version": "1.0.0",
+  "description": "AWS sigv4 signing, optimized for size",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "aws",
+    "sigv4",
+    "amazonwebservices"
+  ],
+  "author": "Pat Cavit <npm@patcavit.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "aws4": "^1.6.0",
+    "jest": "^22.1.4"
+  },
+  "dependencies": {
+    "crypto-js": "^3.1.9-1"
+  }
+}
