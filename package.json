@@ -15,7 +15,11 @@
   "license": "MIT",
   "devDependencies": {
     "aws4": "^1.6.0",
-    "jest": "^22.1.4"
+    "jest": "^22.1.4",
+    "rollup": "^0.55.3",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "strict-uri-encode": "^2.0.0"
   },
   "dependencies": {
     "crypto-js": "^3.1.9-1"
