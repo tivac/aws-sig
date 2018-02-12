@@ -1,5 +1,5 @@
 "use strict";
 
 module.exports = {
-    watchPathIgnorePatterns : [ "<rootDir>/dist/" ]
+    watchPathIgnorePatterns : [ "<rootDir>/src/" ]
 };

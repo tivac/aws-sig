@@ -18,6 +18,11 @@ const config  = {
     sessionToken    : "AQoDYXdzEPT//////////wEXAMPLEtc764bNrC9SAPBSM22wDOk4x4HIZ8j4FZTwdQWLWsKWHGBuFqwAeMicRXmxfpSPfIeoIYRqTflfKD8YUuwthAx7mSEI/qkPpKPi/kMcGdQrmGdeehM4IC1NtBmUpp2wUE8phUZampKsburEDy0KPkyQDYwT7WZ0wq5VSXDvp75YU9HFvlRd8Tx6q6fE8YQcHNVXAkiY9q6d+xo0rKwT38xVqr7ZD0u0iPPkUL64lIZbqBAz+scqKmlzm8FDrypNC9Yjc8fPOLn9FX9KSYvKTr4rvx3iSIlTJabIQwj2ICCR/oLxBA=="
 };
 
+const ignored = [
+    // Request parsing lib just doesn't handle this atm, don't think I care given intended usage
+    "get-header-value-multiline",
+];
+
 describe("aws-sig", () => {
     const files = new Map();
 
@@ -39,16 +44,26 @@ describe("aws-sig", () => {
     });
 
     // Set up all the tests
-    // files
-    // [ files.get("get-vanilla") ]
-    [ files.get("get-vanilla-query-order-key") ]
-    .forEach((files, name) =>
+    files
+    // [ files.get("get-vanilla"), ]
+    // [ files.get("normalize-path-get-slash") ]
+    .forEach((files, name) => {
+        if(ignored.indexOf(name) > -1) {
+            it.skip(`${name} - canonical request`);
+
+            return;
+        }
+
+        const req = parse(files.get("req"));
+        const canonical = lib._request(req);
+        const stringToSign = lib._stringToSign(req, canonical);
+        
         it(`${name} - canonical request`, () => {
-            const req = parse(files.get("req"));
+            expect(canonical).toEqual(files.get("creq"));
+        });
 
-            console.log(req);
-
-            expect(lib._canonical(req)).toEqual(files.get("creq"));
-        })
-    );
+        it(`${name} - string to sign`, () => {
+            expect(stringToSign).toEqual(files.get("sts"));
+        });
+    });
 });

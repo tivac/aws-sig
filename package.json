@@ -4,7 +4,8 @@
   "description": "AWS sigv4 signing, optimized for size",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "rollup -c"
   },
   "keywords": [
     "aws",
@@ -15,6 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "aws4": "^1.6.0",
+    "eslint": "^4.17.0",
     "jest": "^22.1.4",
     "rollup": "^0.55.3",
     "rollup-plugin-commonjs": "^8.3.0",

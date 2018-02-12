@@ -2,8 +2,6 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var strictUriEncode = str => encodeURIComponent(str).replace(/[!'()*]/g, x => `%${x.charCodeAt(0).toString(16).toUpperCase()}`);
-
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 
@@ -1114,48 +1112,138 @@ var hmacSha256 = createCommonjsModule(function (module, exports) {
 }));
 });
 
-const _canonical = ({ method, url, headers, body }) => {
+var strictUriEncode = str => encodeURIComponent(str).replace(/[!'()*]/g, x => `%${x.charCodeAt(0).toString(16).toUpperCase()}`);
+
+const sort = (a, b) => a.localeCompare(b);
+
+// Sort query parameters by key
+// Then also sort by value because AWS
+var query = ({ url }) => {
+    const source = {};
     const params = [];
-    const hkeys = headers ? Object.keys(headers) : [];
     
     url.searchParams.forEach((value, key) => {
-        params.push([ key, value || "" ]);
+        if(!source[key]) {
+            source[key] = [];
+        }
+
+        source[key].push(value);
     });
+
+    Object.keys(source)
+        .sort(sort)
+        .forEach((key) => {
+            source[key]
+                .sort(sort)
+                .forEach((value) => {
+                    params.push(`${strictUriEncode(key)}=${strictUriEncode(value)}`);
+                });
+        });
+
+    return params.join("&");
+}
+
+const trim = (val) => val.trim().replace(/\s+/g, " ");
+
+var headers = ({ headers }) => {
+    const keys = Object.keys(headers);
     
+    if(!keys.length) {
+        return "";
+    }
+
+    return keys
+        .map((key) => {
+            const vals = headers[key];
+
+            return `${key.toLowerCase()}:${Array.isArray(vals) ? vals.map(trim).join(",") : trim(vals)}`;
+        })
+        .join("\n");
+}
+
+const multipleSlashesRegex = /\/\/+/g;
+
+var path = ({ url }) => {
+    return url.pathname
+        .replace(multipleSlashesRegex, "/")
+        .split("/")
+        .reduce((prev, curr) => {
+            if(curr === "..") {
+                prev.pop();
+
+                return prev;
+            }
+            
+            if(curr === ".") {
+                return prev;
+            }
+            
+            prev.push(curr);
+
+            return prev;
+        }, [])
+        .join("/");
+};
+
+const _request = (req) => {
+    const { method, url, body } = req;
+
     return [
         method ? method.toUpperCase() : "GET",
         
         // Canonical Path
-        url.pathname.split("/").map(strictUriEncode).join("/"),
+        path(req),
         
         // Canonical Query
-        params
-            .sort(([ keya ], [ keyb ]) => keya < keyb)
-            .map(([ key, value ]) => `${strictUriEncode(key)}=${strictUriEncode(value)}`)
-            .join("&"),
+        query(req),
         
         // Canonical Headers
-        (hkeys.length
-            ? hkeys
-                .map((key) => `${key.toLowerCase()}:${headers[key].trim().replace(/\s+/g, " ")}`)
-                .join("\n")
-            : ""),
+        headers(req),
+
+        // Extra linebreak
         "",
+
         // Signed Headers
-        hkeys.map((header) => header.toLowerCase()).join(";"),
+        Object.keys(req.headers).map((header) => header.toLowerCase()).join(";"),
 
         // Hashed payload
-        sha256(JSON.stringify(body)).toString()
+        sha256(typeof body === "string" ? body.trim() : body).toString()
+    ].join("\n");
+};
+
+const _stringToSign = ({ region, service, headers: headers$$1 }, canonical) => {
+    let datetime = "X-Amz-Date" in headers$$1 ? headers$$1["X-Amz-Date"][0] : false;
+    
+    if(!datetime) {
+        datetime = (new Date(headers$$1.Date || headers$$1.date || Date.now())).toISOString().replace(/[:\-]|\.\d{3}/g, "");
+    }
+
+    const [ date ] = datetime.split("T");
+
+    return [
+        "AWS4-HMAC-SHA256",
+        // TODO: Date/time
+        headers$$1["X-Amz-Date"] || datetime,
+        // TODO: Scope
+        `${date}/${region}/${service}/aws4_request`,
+        // TODO: Signed canonical request
+        sha256(canonical)
     ].join("\n");
 };
 
 const sign = (req, config) => {
-    const args = Object.assign(Object.create(null), req, config, { url : new URL(req.url) });
+    const args = Object.assign(
+        Object.create(null),
+        req,
+        config,
+        { url : new URL(req.url) }
+    );
 
-    const request = _canonical(args);
+    const request = _request(args);
 
     console.log(request);
 };
 
 exports.sign = sign;
-exports._canonical = _canonical;
+exports._request = _request;
+exports._stringToSign = _stringToSign;

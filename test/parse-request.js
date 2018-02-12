@@ -5,13 +5,9 @@ const { URL } = require("url");
 module.exports = function parseReq(req) {
     const [ details, ...rest ] = req.toString("utf8").split("\n");
 
-    console.log(rest);
-
     // parsing POST / HTTP/1.1
     const [ _, method, uri ] = details.match(/(.+) (\/.*) HTTP/);
     const [ path, ...query ] = uri.split("?");
-
-    console.log(uri, query);
 
     // parsing headers
     let i = 0;
@@ -20,7 +16,11 @@ module.exports = function parseReq(req) {
     while(i < rest.length && rest[i].length) {
         const [ key, ...value ] = rest[i].split(":");
         
-        headers[key] = value.join(":");
+        if(!headers[key]) {
+            headers[key] = [];
+        }
+
+        headers[key].push(value.join(":"));
 
         i++;
     }
@@ -38,6 +38,8 @@ module.exports = function parseReq(req) {
         path,
         query : query.length ? query.join("?") : undefined,
         headers,
+        region : "us-east-1",
+        service : "service",
         body
     };
 };
