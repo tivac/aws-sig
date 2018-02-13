@@ -1,18 +1,30 @@
 "use strict";
 
-// var dedent = require("dedent");
+var dedent = require("dedent");
 
 module.exports = function(req) {
-    let out = /*dedent(*/`
+    const headers = [];
+
+    Object.keys(req.headers).forEach((key) => {
+        let values = req.headers[key];
+        
+        if(!Array.isArray(values)) {
+            values = [ values ];
+        }
+
+        values.forEach((value) => headers.push(`${key}:${value}`));
+    });
+    
+    let out = dedent(`
         ${req.method} ${req.uri} HTTP/1.1
-        ${req.headers.map(([ key, value ]) => `${key}:${value}`).join("\n")}
-    `;//);
+        ${headers.join("\n")}
+    `);
     
     if(req.body) {
-        out += /*dedent(*/`
-        
+        out += "\n\n";
+        out += dedent(`
             ${req.body}
-        `;//);
+        `);
     }
 
     out += '\n';
