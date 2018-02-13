@@ -15,5 +15,12 @@ module.exports = {
     plugins : [
         require("rollup-plugin-node-resolve")(),
         require("rollup-plugin-commonjs")(),
+
+        process.env.PRODUCTION ?
+            require("rollup-plugin-strip-code")({
+                start_comment : "START.TESTSONLY",
+                end_comment   : "END.TESTSONLY"
+            }) :
+            {}
     ]
 };

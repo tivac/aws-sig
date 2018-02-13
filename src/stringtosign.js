@@ -1,21 +1,18 @@
 import Sha256 from "crypto-js/sha256";
 
-export default ({ region, service, headers }, canonical) => {
-    let datetime = "X-Amz-Date" in headers ? headers["X-Amz-Date"][0] : false;
-    
-    if(!datetime) {
-        datetime = (new Date(headers.Date || headers.date || Date.now())).toISOString().replace(/[:\-]|\.\d{3}/g, "");
-    }
-
-    const [ date ] = datetime.split("T");
-
+// https://docs.aws.amazon.com/general/latest/gr/sigv4-create-string-to-sign.html
+export default ({ algorithm, date, region, service }, canonical) => {
     return [
-        "AWS4-HMAC-SHA256",
-        // TODO: Date/time
-        headers["X-Amz-Date"] || datetime,
-        // TODO: Scope
-        `${date}/${region}/${service}/aws4_request`,
-        // TODO: Signed canonical request
+        // Signing Function
+        algorithm,
+        
+        // Date Time
+        date.long,
+        
+        // Scope
+        `${date.short}/${region}/${service}/aws4_request`,
+        
+        // Signed canonical request
         Sha256(canonical)
     ].join("\n");
 };
