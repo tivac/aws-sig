@@ -1185,7 +1185,7 @@ var path = ({ url }) => {
         .join("/");
 };
 
-const _request = (req) => {
+var request = (req) => {
     const { method, url, body } = req;
 
     return [
@@ -1211,11 +1211,11 @@ const _request = (req) => {
     ].join("\n");
 };
 
-const _stringToSign = ({ region, service, headers: headers$$1 }, canonical) => {
-    let datetime = "X-Amz-Date" in headers$$1 ? headers$$1["X-Amz-Date"][0] : false;
+var stringToSign = ({ region, service, headers }, canonical) => {
+    let datetime = "X-Amz-Date" in headers ? headers["X-Amz-Date"][0] : false;
     
     if(!datetime) {
-        datetime = (new Date(headers$$1.Date || headers$$1.date || Date.now())).toISOString().replace(/[:\-]|\.\d{3}/g, "");
+        datetime = (new Date(headers.Date || headers.date || Date.now())).toISOString().replace(/[:\-]|\.\d{3}/g, "");
     }
 
     const [ date ] = datetime.split("T");
@@ -1223,7 +1223,7 @@ const _stringToSign = ({ region, service, headers: headers$$1 }, canonical) => {
     return [
         "AWS4-HMAC-SHA256",
         // TODO: Date/time
-        headers$$1["X-Amz-Date"] || datetime,
+        headers["X-Amz-Date"] || datetime,
         // TODO: Scope
         `${date}/${region}/${service}/aws4_request`,
         // TODO: Signed canonical request
@@ -1231,19 +1231,18 @@ const _stringToSign = ({ region, service, headers: headers$$1 }, canonical) => {
     ].join("\n");
 };
 
-const sign = (req, config) => {
+const sign = (source, config) => {
     const args = Object.assign(
         Object.create(null),
-        req,
+        source,
         config,
-        { url : new URL(req.url) }
+        { url : new URL(source.url) }
     );
 
-    const request = _request(args);
-
-    console.log(request);
+    const canonical = request(args);
+    const sts = stringToSign(args, canonical);
 };
 
 exports.sign = sign;
-exports._request = _request;
-exports._stringToSign = _stringToSign;
+exports._request = request;
+exports._stringToSign = stringToSign;
