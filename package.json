@@ -1,6 +1,6 @@
 {
   "name": "aws-sig",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AWS sigv4 signing, optimized for size",
   "main": "./dist/aws-sig.cjs.js",
   "module": "./dist/aws-sig.esm.js",
