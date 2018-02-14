@@ -27,7 +27,7 @@ module.exports = function(req) {
         `);
     }
 
-    out += '\n';
+    out += "\n";
 
     return out.replace(/\r\n/g, "\n");
 };

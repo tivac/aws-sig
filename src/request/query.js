@@ -27,4 +27,4 @@ export default ({ url }) => {
         });
 
     return params.join("&");
-}
+};

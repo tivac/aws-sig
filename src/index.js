@@ -5,10 +5,12 @@ import signature from "./signature.js";
 
 const dateCleanRegex = /[:\-]|\.\d{3}/g;
 
-const date = ({ headers }) => {
-    let datetime = "X-Amz-Date" in headers ?
+const parseDate = ({ headers }) => {
+    const datetime = "X-Amz-Date" in headers ?
         headers["X-Amz-Date"][0] :
-        (new Date(headers.Date || Date.now())).toISOString().replace(dateCleanRegex, "");
+        (new Date(headers.Date || Date.now()))
+            .toISOString()
+            .replace(dateCleanRegex, "");
 
     return {
         short : datetime.split("T")[0],
@@ -34,7 +36,7 @@ export default (source, config) => {
         {
             url       : new URL(source.url),
             algorithm : "AWS4-HMAC-SHA256",
-            date      : date(source)
+            date      : parseDate(source)
         }
     );
 

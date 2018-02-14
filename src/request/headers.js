@@ -17,6 +17,7 @@ const values = ({ headers }) => {
 };
 
 const signed = ({ headers }) =>
-    Object.keys(headers).map((header) => header.toLowerCase()).join(";");
+    Object.keys(headers).map((header) => header.toLowerCase())
+.join(";");
 
 export { values, signed };

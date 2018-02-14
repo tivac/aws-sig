@@ -1,8 +1,7 @@
 import { hash } from "./encode.js";
 
 // https://docs.aws.amazon.com/general/latest/gr/sigv4-create-string-to-sign.html
-export default ({ algorithm, date, region, service }, canonical) => {
-    return [
+export default ({ algorithm, date, region, service }, canonical) => [
         // Signing Function
         algorithm,
         
@@ -15,4 +14,3 @@ export default ({ algorithm, date, region, service }, canonical) => {
         // Signed canonical request
         hash(canonical)
     ].join("\n");
-};

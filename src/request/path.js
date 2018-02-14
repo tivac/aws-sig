@@ -1,9 +1,6 @@
-import encode from "strict-uri-encode"
-
 const multipleSlashesRegex = /\/\/+/g;
 
-export default ({ url }) => {
-    return url.pathname
+export default ({ url }) => url.pathname
         .replace(multipleSlashesRegex, "/")
         .split("/")
         .reduce((prev, curr) => {
@@ -22,4 +19,3 @@ export default ({ url }) => {
             return prev;
         }, [])
         .join("/");
-};

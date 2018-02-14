@@ -13,8 +13,8 @@ module.exports = [
         input,
 
         output : {
-            name : pkg.name,
-            file : pkg.browser,
+            name   : pkg.name,
+            file   : pkg.browser,
             format : "umd"
         },
 
@@ -38,10 +38,10 @@ module.exports = [
         input,
 
         output : [{
-            file : pkg.main,
+            file   : pkg.main,
             format : "cjs"
         }, {
-            file : pkg.module,
+            file   : pkg.module,
             format : "es"
         }],
 

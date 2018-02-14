@@ -27,18 +27,19 @@ module.exports = function parseReq(req) {
 
     // parsing body
     let body;
+
     if(rest.length > ++i) {
         body = rest.slice(i).join("\n");
     }
 
     return {
         method,
-        url : new URL(`https://${headers.Host}}${uri}`),
+        url     : new URL(`https://${headers.Host}}${uri}`),
         uri,
         path,
-        query : query.length ? query.join("?") : undefined,
+        query   : query.length ? query.join("?") : undefined,
         headers,
-        region : "us-east-1",
+        region  : "us-east-1",
         service : "service",
         body
     };

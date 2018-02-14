@@ -5,7 +5,7 @@ import { values, signed } from "./headers.js";
 import path from "./path.js";
 
 export default (req) => {
-    const { method, url, body } = req;
+    const { method, body } = req;
     
     return [
         method ? method.toUpperCase() : "GET",
