@@ -56,12 +56,13 @@ export default (source, config) => {
         source.headers = {};
     }
 
-    source.headers.Authorization = auth;
     source.headers["X-Amz-Date"] = details.date.long;
-
+    
     if(config.sessionToken) {
-        // source.headers["X-Amz-Security-Token"] = config.sessionToken;
+        source.headers["X-Amz-Security-Token"] = config.sessionToken;
     }
+    
+    source.headers.Authorization = auth;
 
     return source;
 };
