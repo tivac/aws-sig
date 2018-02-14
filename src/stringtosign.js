@@ -1,4 +1,4 @@
-import Sha256 from "crypto-js/sha256";
+import { hash } from "./encode.js";
 
 // https://docs.aws.amazon.com/general/latest/gr/sigv4-create-string-to-sign.html
 export default ({ algorithm, date, region, service }, canonical) => {
@@ -13,6 +13,6 @@ export default ({ algorithm, date, region, service }, canonical) => {
         `${date.short}/${region}/${service}/aws4_request`,
         
         // Signed canonical request
-        Sha256(canonical)
+        hash(canonical)
     ].join("\n");
 };

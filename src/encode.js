@@ -1,8 +1,7 @@
-import Sha256 from "crypto-js/sha256";
-import HmacSHA256 from "crypto-js/hmac-sha256";
+import { SHA256, HmacSHA256 } from "./crypto-es/sha256.js";
 
 const hash = (str) =>
-    Sha256(str).toString();
+    SHA256(str).toString();
 
 const hmac = HmacSHA256;
     
