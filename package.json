@@ -1,6 +1,6 @@
 {
   "name": "aws-sig",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "AWS sigv4 signing, optimized for size",
   "main": "./dist/aws-sig.cjs.js",
   "module": "./dist/aws-sig.esm.js",
@@ -10,6 +10,7 @@
     "build": "rollup -c",
     "clean": "shx rm -rf dist/",
     "lint": "eslint .",
+    "release": "npm version -m \"v%s\"",
     "pretest": "npm run build",
     "test": "jest",
     "posttest": "npm run lint",
