@@ -2,10 +2,14 @@
   "name": "aws-sig",
   "version": "1.0.0",
   "description": "AWS sigv4 signing, optimized for size",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "module": "./index.js",
   "scripts": {
-    "test": "jest",
-    "build": "rollup -c"
+    "prebuild": "npm run clean",
+    "build": "rollup -c",
+    "clean": "shx rm -rf dist/",
+    "pretest": "npm run build",
+    "test": "jest"
   },
   "keywords": [
     "aws",
@@ -16,6 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "aws4": "^1.6.0",
+    "crypto-js": "^3.1.9-1",
     "dedent": "^0.7.0",
     "eslint": "^4.17.0",
     "jest": "^22.1.4",
@@ -25,9 +30,7 @@
     "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-plugin-strip-code": "^0.2.5",
     "rollup-plugin-uglify": "^3.0.0",
+    "shx": "^0.2.2",
     "strict-uri-encode": "^2.0.0"
-  },
-  "dependencies": {
-    "crypto-js": "^3.1.9-1"
   }
 }

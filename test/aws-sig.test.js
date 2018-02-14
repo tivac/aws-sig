@@ -6,7 +6,7 @@ const path = require("path");
 const parse = require("./parse-request.js");
 const build = require("./build-request.js");
 
-const sign = require("../dist/aws-sig.cjs.js");
+const sign = require("../dist/index.js");
 
 const specimens = fs.readdirSync("./test/specimens/aws-sig-v4-test-suite");
 

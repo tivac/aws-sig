@@ -19,12 +19,7 @@ const es6 = {
 
     output : [
         {
-            file : "dist/aws-sig.esm.js",
-            format : "es",
-            sourcemap : true,
-        },
-        {
-            file : "dist/aws-sig.cjs.js",
+            file : "dist/index.js",
             format : "cjs",
             sourcemap : true,
         }
@@ -38,12 +33,7 @@ const es5 = {
 
     output : [
         {
-            file : "dist/es5/aws-sig.esm.js",
-            format : "es",
-            sourcemap : true,
-        },
-        {
-            file : "dist/es5/aws-sig.cjs.js",
+            file : "dist/es5/index.js",
             format : "cjs",
             sourcemap : true,
         }
