@@ -31,6 +31,9 @@ const authorization = (req, sig) => {
 export default (source, config) => {
     const details = Object.assign(
         Object.create(null),
+        {
+            method : "GET",
+        },
         source,
         config,
         {
@@ -39,7 +42,7 @@ export default (source, config) => {
             date      : parseDate(source)
         }
     );
-
+    
     const canonical = request(details);
     const sts = stringToSign(details, canonical);
     const sig = signature(details, sts);
