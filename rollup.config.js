@@ -15,7 +15,8 @@ module.exports = [
         output : {
             name   : pkg.name,
             file   : pkg.browser,
-            format : "umd"
+            format : "umd",
+            sourcemap : true,
         },
 
         plugins : [
@@ -39,10 +40,12 @@ module.exports = [
 
         output : [{
             file   : pkg.main,
-            format : "cjs"
+            format : "cjs",
+            sourcemap : true,
         }, {
             file   : pkg.module,
-            format : "es"
+            format : "es",
+            sourcemap : true,
         }],
 
         external : [
