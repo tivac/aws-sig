@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- node
+- '8'
+- '6'
+
+# https://docs.travis-ci.com/user/customizing-the-build/#Fast-Finishing
+matrix:
+  fast_finish: true
+
+script: npm test -- --coverage --verbose
