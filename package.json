@@ -33,7 +33,6 @@
     "rollup": "^0.55.3",
     "rollup-plugin-buble": "^0.19.2",
     "rollup-plugin-commonjs": "^8.3.0",
-    "rollup-plugin-conditional": "^1.1.1",
     "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-plugin-strip-code": "^0.2.5",
     "rollup-plugin-uglify": "^3.0.0",
