@@ -25,6 +25,15 @@ module.exports = function parseReq(req) {
         i++;
     }
 
+    // Flatten one-item headers because no one wants to call them as an array...
+    Object.keys(headers).forEach((key) => {
+        if(headers[key].length !== 1) {
+            return;
+        }
+
+        headers[key] = headers[key][0];
+    });
+
     // parsing body
     let body;
 
