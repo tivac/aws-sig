@@ -20,14 +20,23 @@ const config = {
 };
 
 const request = {
-    method  : "GET",
+    // These can be part of the config object or the request object
     region  : "us-east-1",
     service : "service",
-    url     : "https://my.aws.url.that.i.need.to.hit/look/it-has/a-path-in-it-as-well",
+    
+    method : "GET",
+    url    : "https://my.aws.url.that.i.need.to.hit/look/it-has/a-path-in-it-as-well",
+    
+    // Headers are optional
     headers : {
-        // ...
+        // Single header value
+        "X-Amz-Date" : "20150830T123600Z",
+        
+        // Multiple headers
+        "X-Multiple" : [ "one", "two", "three" ]
     }
-    body : // ...
+    // Body is optional, should be a string
+    body : "..."
 };
 
 const signed = sign(request, config);
@@ -35,4 +44,6 @@ const signed = sign(request, config);
 
 ## 🛁 What?
 
-Supports query params, date overrides via `X-Amz-Date` or `Date` headers, and probably some other features.
+Supports query params, date overrides via `X-Amz-Date` or `Date` headers, multiple header values, and probably some other features.
+
+Tested in production against API Gateway & working. Your results may vary for other services, S3 seems especially fraught with peril. 💀
