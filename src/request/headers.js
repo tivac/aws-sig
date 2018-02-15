@@ -1,4 +1,8 @@
-const trim = (val) => val.trim().replace(/\s+/g, " ");
+const trim = (val) =>
+    val
+        .toString()
+        .trim()
+        .replace(/\s+/g, " ");
 
 const values = ({ headers }) => {
     const keys = Object.keys(headers);
@@ -17,7 +21,9 @@ const values = ({ headers }) => {
 };
 
 const signed = ({ headers }) =>
-    Object.keys(headers).map((header) => header.toLowerCase())
-.join(";");
+    Object.keys(headers)
+        .map((header) => header.toLowerCase())
+        .sort()
+        .join(";");
 
 export { values, signed };

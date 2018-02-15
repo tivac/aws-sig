@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`aws-sig Should sort SignedHeaders by name 1`] = `
+Object {
+  "headers": Object {
+    "Authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20180214/us-east-1/service/aws4_request, SignedHeaders=a;m;z, Signature=16c899f0c53d42d92842814824e102b92bdf9e6c5e3e232fcc2f916643024b0e",
+    "X-Amz-Date": "20180214T235948Z",
+    "a": 1,
+    "m": 1,
+    "z": 1,
+  },
+  "test": Object {
+    "auth": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20180214/us-east-1/service/aws4_request, SignedHeaders=a;m;z, Signature=16c899f0c53d42d92842814824e102b92bdf9e6c5e3e232fcc2f916643024b0e",
+    "canonical": "GET
+/
+
+z:1
+a:1
+m:1
+
+a;m;z
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sts": "AWS4-HMAC-SHA256
+20180214T235948Z
+20180214/us-east-1/service/aws4_request
+fbab4b4d7cf705b0f67fac0d6310d3b766d9e6bb361855d4386b659b8f37e4a4",
+  },
+  "url": "https://aws.amazon.com",
+}
+`;
