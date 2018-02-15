@@ -5,6 +5,25 @@ const pkg = require("./package.json");
 const input = "./src/index.js";
 
 module.exports = [
+    // ESM & CJS builds
+    {
+        input,
+
+        output : [{
+            file      : pkg.main,
+            format    : "cjs",
+            sourcemap : true,
+        }, {
+            file      : pkg.module,
+            format    : "es",
+            sourcemap : true,
+        }],
+
+        external : [
+            "strict-uri-encode"
+        ]
+    },
+
     // browser UMD build
     {
         input,
@@ -27,23 +46,4 @@ module.exports = [
             require("rollup-plugin-uglify")()
         ]
     },
-
-    // ESM & CJS builds
-    {
-        input,
-
-        output : [{
-            file      : pkg.main,
-            format    : "cjs",
-            sourcemap : true,
-        }, {
-            file      : pkg.module,
-            format    : "es",
-            sourcemap : true,
-        }],
-
-        external : [
-            "strict-uri-encode"
-        ]
-    }
 ];
