@@ -10,6 +10,8 @@ describe("aws-sig", () => {
             sign({
                 url     : "https://aws.amazon.com",
                 headers : {
+                    "X-Amz-Date" : "20150830T123600Z",
+
                     z : 1,
                     a : 1,
                     m : 1
