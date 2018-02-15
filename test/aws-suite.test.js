@@ -3,28 +3,20 @@
 const fs = require("fs");
 const path = require("path");
 
-const parse = require("./parse-request.js");
-const build = require("./build-request.js");
+const parse  = require("./parse-request.js");
+const build  = require("./build-request.js");
+const config = require("./config.js");
 
 const sign = require("../dist/aws-sig.cjs.js");
 
 const dir = fs.readdirSync("./test/specimens/aws-sig-v4-test-suite");
-
-const config  = {
-    region          : "us-east-1",
-    service         : "service",
-    accessKeyId     : "AKIDEXAMPLE",
-    secretAccessKey : "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY"
-};
-
-const token = "AQoDYXdzEPT//////////wEXAMPLEtc764bNrC9SAPBSM22wDOk4x4HIZ8j4FZTwdQWLWsKWHGBuFqwAeMicRXmxfpSPfIeoIYRqTflfKD8YUuwthAx7mSEI/qkPpKPi/kMcGdQrmGdeehM4IC1NtBmUpp2wUE8phUZampKsburEDy0KPkyQDYwT7WZ0wq5VSXDvp75YU9HFvlRd8Tx6q6fE8YQcHNVXAkiY9q6d+xo0rKwT38xVqr7ZD0u0iPPkUL64lIZbqBAz+scqKmlzm8FDrypNC9Yjc8fPOLn9FX9KSYvKTr4rvx3iSIlTJabIQwj2ICCR/oLxBA==";
 
 const ignored = [
     // Request parsing lib just doesn't handle this atm, don't think I care given intended usage
     "get-header-value-multiline"
 ];
 
-describe("aws-sig", () => {
+describe("AWS Signature v4 Test Suite", () => {
     const specimens = new Map();
 
     // Read all specimen files into memory
@@ -46,16 +38,12 @@ describe("aws-sig", () => {
 
     // Set up all the tests
     specimens.forEach((files, name) => {
-        const conf = Object.assign(Object.create(null), config);
+        const conf = config({ token : name.includes("token") });
         
         if(ignored.indexOf(name) > -1) {
             it.skip(`Skipping ${name}`);
 
             return;
-        }
-
-        if(name.includes("token")) {
-            conf.sessionToken = token;
         }
 
         const req = parse(files.get("req"));
