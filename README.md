@@ -46,4 +46,4 @@ const signed = sign(request, config);
 
 Supports query params, date overrides via `X-Amz-Date` or `Date` headers, multiple header values, and probably some other features.
 
-Tested in production against API Gateway & working. Your results may vary for other services, S3 seems especially fraught with peril. 💀
+Tested against API Gateway so far. Your results may vary for other services, S3 seems especially fraught with peril. 💀
