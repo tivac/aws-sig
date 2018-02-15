@@ -1,29 +1,32 @@
-const trim = (val) =>
-    val
+const trim = (val) => {
+    return val
         .toString()
         .trim()
         .replace(/\s+/g, " ");
+}
 
-const values = ({ headers }) => {
-    const keys = Object.keys(headers);
-    
-    if(!keys.length) {
+const values = (headers) => {
+    if(!headers.length) {
         return "";
     }
 
-    return keys
-        .map((key) => {
-            const vals = headers[key];
-
-            return `${key.toLowerCase()}:${Array.isArray(vals) ? vals.map(trim).join(",") : trim(vals)}`;
+    return headers
+        .map(([ key, vals ]) => {
+            return `${key}:${Array.isArray(vals) ? vals.map(trim).join(",") : trim(vals)}`;
         })
         .join("\n");
 };
 
-const signed = ({ headers }) =>
-    Object.keys(headers)
-        .map((header) => header.toLowerCase())
-        .sort()
+const signed = (headers) => {
+    return headers
+        .map(([ key ]) => key)
         .join(";");
+}
 
-export { values, signed };
+const sorted = ({ headers = {} }) => {
+    const out = Object.keys(headers).map((key) => [ key.toLowerCase(), headers[key] ]);
+
+    return out.sort((a, b) => a[0] > b[0]);
+}
+
+export { sorted, values, signed };

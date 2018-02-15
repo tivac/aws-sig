@@ -5,8 +5,8 @@ import { values, signed } from "./headers.js";
 import path from "./path.js";
 
 export default (req) => {
-    const { method, body } = req;
-    
+    const { method, body, sortedHeaders } = req;
+
     return [
         method ? method.toUpperCase() : "GET",
         
@@ -17,13 +17,13 @@ export default (req) => {
         query(req),
         
         // Canonical Headers
-        values(req),
+        values(sortedHeaders),
 
         // Extra linebreak
         "",
 
         // Signed Headers
-        signed(req),
+        signed(sortedHeaders),
 
         // Hashed payload
         hash(typeof body === "string" ? body.trim() : body)

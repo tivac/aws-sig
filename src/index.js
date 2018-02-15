@@ -1,5 +1,5 @@
 import request from "./request/request.js";
-import { signed } from "./request/headers.js";
+import { sorted, signed } from "./request/headers.js";
 import stringToSign from "./stringtosign.js";
 import signature from "./signature.js";
 
@@ -19,11 +19,11 @@ const parseDate = ({ headers }) => {
 };
 
 const authorization = (req, sig) => {
-    const { algorithm, accessKeyId, date, region, service } = req;
+    const { algorithm, accessKeyId, date, region, service, sortedHeaders } = req;
 
     return [
         `${algorithm} Credential=${accessKeyId}/${date.short}/${region}/${service}/aws4_request`,
-        `SignedHeaders=${signed(req)}`,
+        `SignedHeaders=${signed(sortedHeaders)}`,
         `Signature=${sig}`
     ].join(", ");
 };
@@ -37,9 +37,10 @@ export default (source, config) => {
         source,
         config,
         {
-            url       : new URL(source.url),
-            algorithm : "AWS4-HMAC-SHA256",
-            date      : parseDate(source)
+            url           : new URL(source.url),
+            algorithm     : "AWS4-HMAC-SHA256",
+            date          : parseDate(source),
+            sortedHeaders : sorted(source)
         }
     );
     
