@@ -1,12 +1,12 @@
 {
   "name": "aws-sig",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "AWS sigv4 signing, optimized for size",
   "author": "Pat Cavit <npm@patcavit.com>",
   "license": "MIT",
   "repository": "tivac/aws-sig",
-    "bugs": {
-      "url": "https://github.com/tivac/aws-sig/issues"
+  "bugs": {
+    "url": "https://github.com/tivac/aws-sig/issues"
   },
   "files": [
     "dist"
