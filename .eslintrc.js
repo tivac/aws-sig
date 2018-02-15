@@ -12,6 +12,7 @@ module.exports = {
             varsIgnorePattern : "_"
         } ],
 
-        "func-style" : [ "warn", "expression" ]
+        "func-style" : [ "warn", "expression" ],
+        "arrow-body-style" : "off"
     }
 };

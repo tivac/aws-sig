@@ -13,9 +13,9 @@ module.exports = [
         input,
 
         output : {
-            name   : pkg.name,
-            file   : pkg.browser,
-            format : "umd",
+            name      : pkg.name,
+            file      : pkg.browser,
+            format    : "umd",
             sourcemap : true,
         },
 
@@ -39,12 +39,12 @@ module.exports = [
         input,
 
         output : [{
-            file   : pkg.main,
-            format : "cjs",
+            file      : pkg.main,
+            format    : "cjs",
             sourcemap : true,
         }, {
-            file   : pkg.module,
-            format : "es",
+            file      : pkg.module,
+            format    : "es",
             sourcemap : true,
         }],
 

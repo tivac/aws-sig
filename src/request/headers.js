@@ -3,7 +3,7 @@ const trim = (val) => {
         .toString()
         .trim()
         .replace(/\s+/g, " ");
-}
+};
 
 const values = (headers) => {
     if(!headers.length) {
@@ -21,12 +21,12 @@ const signed = (headers) => {
     return headers
         .map(([ key ]) => key)
         .join(";");
-}
+};
 
 const sorted = ({ headers = {} }) => {
     const out = Object.keys(headers).map((key) => [ key.toLowerCase(), headers[key] ]);
 
     return out.sort((a, b) => a[0] > b[0]);
-}
+};
 
 export { sorted, values, signed };
