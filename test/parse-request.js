@@ -6,7 +6,7 @@ module.exports = function parseReq(req) {
     const [ details, ...rest ] = req.toString("utf8").split("\n");
 
     // parsing POST / HTTP/1.1
-    const [ _, method, uri ] = details.match(/(.+) (\/.*) HTTP/);
+    const [ , method, uri ] = details.match(/(.+) (\/.*) HTTP/);
     const [ path, ...query ] = uri.split("?");
 
     // parsing headers
