@@ -7,7 +7,7 @@ const dateCleanRegex = /[:\-]|\.\d{3}/g;
 
 const parseDate = ({ headers }) => {
     const datetime = "X-Amz-Date" in headers ?
-        headers["X-Amz-Date"][0] :
+        headers["X-Amz-Date"] :
         (new Date(headers.Date || Date.now()))
             .toISOString()
             .replace(dateCleanRegex, "");
