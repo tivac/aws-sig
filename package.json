@@ -32,6 +32,7 @@
     "postversion": "git push --follow-tags && npm publish"
   },
   "devDependencies": {
+    "@alrra/travis-scripts": "^3.0.1",
     "@tivac/eslint-config": "^1.0.0",
     "crypto-js": "^3.1.9-1",
     "dedent": "^0.7.0",
