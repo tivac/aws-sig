@@ -37,3 +37,4 @@ deploy:
     on:
       tags: true
       repo: tivac/aws-sig
+      node: 'node'
