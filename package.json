@@ -29,7 +29,7 @@
     "test": "jest",
     "posttest": "npm run lint",
     "preversion": "npm test",
-    "postversion": "git push --follow-tags && npm publish"
+    "postversion": "git push --follow-tags"
   },
   "devDependencies": {
     "@alrra/travis-scripts": "^3.0.1",
