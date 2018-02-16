@@ -17,15 +17,19 @@ after_success:
       --iv "$encrypted_1001587ab084_iv" \
       --path-encrypted-key ".travis/github_deploy_key.enc"
 
-    # Force add files in ./dist, despite the .gitignore
-    git add --force ./dist
+    # Only commit build artifacts on one node to avoid git errors
+    if [ "$TRAVIS_NODE_VERSION" == "node" ]
+    then
+      # Force add files in ./dist, despite the .gitignore
+      git add --force ./dist
 
-    # --commands is unecessary but required, so it's effectively a no-op
-    # --branch makes sure this only happens on master
-    $(npm bin)/commit-changes \
-      --commands "echo committing changes" \
-      --commit-message "Bundled output for commit $TRAVIS_COMMIT [skip ci]" \
-      --branch "master"
+      # --commands is unecessary but required, so it's effectively a no-op
+      # --branch makes sure this only happens on master
+      $(npm bin)/commit-changes \
+        --commands "echo committing changes" \
+        --commit-message "Bundled output for commit $TRAVIS_COMMIT [skip ci]" \
+        --branch "master"
+    fi
 
 env:
   global:
