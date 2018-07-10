@@ -12,7 +12,6 @@ var encode = _interopDefault(require('strict-uri-encode'));
 	*/
 var create = Object.create || (function () {
 	function F() {}
-
 	return function (obj) {
 		var subtype;
 
@@ -1044,6 +1043,7 @@ const SHA256 = Hasher$1._createHelper(SHA256Hasher);
 const HmacSHA256 = Hasher$1._createHmacHelper(SHA256Hasher);
 
 /* eslint-disable new-cap */
+
 const hash = (str) =>
     SHA256(str).toString();
 
@@ -1153,7 +1153,7 @@ var request = (req) => {
         signed(sortedHeaders),
 
         // Hashed payload
-        hash(typeof body === "string" ? body.trim() : body)
+        hash(typeof body === "string" ? body.trim() : body),
     ].join("\n");
 };
 
@@ -1169,7 +1169,7 @@ var stringToSign = ({ algorithm, date, region, service }, canonical) => [
         `${date.short}/${region}/${service}/aws4_request`,
         
         // Signed canonical request
-        hash(canonical)
+        hash(canonical),
     ].join("\n");
 
 var signature = ({ date, secretAccessKey, region, service }, sts) => {
@@ -1183,6 +1183,40 @@ var signature = ({ date, secretAccessKey, region, service }, sts) => {
 
 const dateCleanRegex = /[:\-]|\.\d{3}/g;
 
+const requestRequired = [
+    "url",
+];
+
+const configRequired = [
+    "accessKeyId",
+    "region",
+    "secretAccessKey",
+    "service",
+];
+
+// Check for required params
+const validate = (source, config) => {
+    if(!source) {
+        throw new Error(`Missing request object`);
+    }
+
+    if(!config) {
+        throw new Error(`Missing config object`);
+    }
+
+    let missing = requestRequired.filter((field) => !source[field]);
+
+    if(missing.length) {
+        throw new Error(`Missing required request fields: ${missing.join(", ")}`);
+    }
+    
+    missing = configRequired.filter((field) => !config[field]);
+
+    if(missing.length) {
+        throw new Error(`Missing required config fields: ${missing.join(", ")}`);
+    }
+};
+
 const parseDate = ({ headers }) => {
     const datetime = "X-Amz-Date" in headers ?
         headers["X-Amz-Date"] :
@@ -1192,7 +1226,7 @@ const parseDate = ({ headers }) => {
 
     return {
         short : datetime.split("T")[0],
-        long  : datetime
+        long  : datetime,
     };
 };
 
@@ -1202,11 +1236,13 @@ const authorization = (req, sig) => {
     return [
         `${algorithm} Credential=${accessKeyId}/${date.short}/${region}/${service}/aws4_request`,
         `SignedHeaders=${signed(sortedHeaders)}`,
-        `Signature=${sig}`
+        `Signature=${sig}`,
     ].join(", ");
 };
 
 var index = (source, config) => {
+    validate(source, config);
+
     const details = Object.assign(
         Object.create(null),
         {
@@ -1218,7 +1254,7 @@ var index = (source, config) => {
             url           : new URL(source.url),
             algorithm     : "AWS4-HMAC-SHA256",
             date          : parseDate(source),
-            sortedHeaders : sorted(source)
+            sortedHeaders : sorted(source),
         }
     );
     
@@ -1232,7 +1268,7 @@ var index = (source, config) => {
     source.test = {
         canonical,
         sts,
-        auth
+        auth,
     };
     /* END.TESTSONLY */
 
