@@ -1,6 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`aws-sig Should sort SignedHeaders by name 1`] = `
+exports[`aws-sig should be precise about the missing config param values 1`] = `"Missing required config fields: accessKeyId, region"`;
+
+exports[`aws-sig should sort SignedHeaders by name 1`] = `
 Object {
   "headers": Object {
     "Authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20150830/us-east-1/service/aws4_request, SignedHeaders=a;m;x-amz-date;z, Signature=d5b729b777af569c5e22fbf1d1a27fad8d490b6fc3c7a5e1a54542bfa68c0998",
@@ -29,3 +31,9 @@ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "url": "https://aws.amazon.com",
 }
 `;
+
+exports[`aws-sig should throw on a missing config param values 1`] = `"Missing required config fields: accessKeyId, region, secretAccessKey, service"`;
+
+exports[`aws-sig should throw on a missing request param 1`] = `"Missing request object"`;
+
+exports[`aws-sig should throw on missing config param 1`] = `"Missing config object"`;
