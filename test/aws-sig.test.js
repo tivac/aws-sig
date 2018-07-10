@@ -1,6 +1,6 @@
 "use strict";
 
-const config = require("./config.js");
+const config = require("./lib/config.js");
 
 const sign = require("../dist/aws-sig.cjs.js");
 

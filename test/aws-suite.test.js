@@ -3,9 +3,9 @@
 const fs = require("fs");
 const path = require("path");
 
-const parse  = require("./parse-request.js");
-const build  = require("./build-request.js");
-const config = require("./config.js");
+const parse  = require("./lib/parse-request.js");
+const build  = require("./lib/build-request.js");
+const config = require("./lib/config.js");
 
 const sign = require("../dist/aws-sig.cjs.js");
 
