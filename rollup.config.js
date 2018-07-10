@@ -43,7 +43,7 @@ module.exports = [
                 start_comment : "START.TESTSONLY",
                 end_comment   : "END.TESTSONLY",
             }),
-            require("rollup-plugin-uglify")(),
+            require("rollup-plugin-uglify").uglify(),
         ],
     },
 ];
