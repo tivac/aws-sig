@@ -41,7 +41,9 @@ describe("AWS Signature v4 Test Suite", () => {
         const conf = config({ token : name.includes("token") });
         
         if(ignored.indexOf(name) > -1) {
-            it.skip(`Skipping ${name}`);
+            it.skip(`Skipping ${name}`, () => {
+                // TODO: required by jest
+            });
 
             return;
         }
