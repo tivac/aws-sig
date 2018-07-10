@@ -12,5 +12,5 @@ export default ({ algorithm, date, region, service }, canonical) => [
         `${date.short}/${region}/${service}/aws4_request`,
         
         // Signed canonical request
-        hash(canonical)
+        hash(canonical),
     ].join("\n");

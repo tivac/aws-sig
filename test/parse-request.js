@@ -50,6 +50,6 @@ module.exports = function parseReq(req) {
         headers,
         region  : "us-east-1",
         service : "service",
-        body
+        body,
     };
 };

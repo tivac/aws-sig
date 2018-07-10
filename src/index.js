@@ -14,7 +14,7 @@ const parseDate = ({ headers }) => {
 
     return {
         short : datetime.split("T")[0],
-        long  : datetime
+        long  : datetime,
     };
 };
 
@@ -24,7 +24,7 @@ const authorization = (req, sig) => {
     return [
         `${algorithm} Credential=${accessKeyId}/${date.short}/${region}/${service}/aws4_request`,
         `SignedHeaders=${signed(sortedHeaders)}`,
-        `Signature=${sig}`
+        `Signature=${sig}`,
     ].join(", ");
 };
 
@@ -40,7 +40,7 @@ export default (source, config) => {
             url           : new URL(source.url),
             algorithm     : "AWS4-HMAC-SHA256",
             date          : parseDate(source),
-            sortedHeaders : sorted(source)
+            sortedHeaders : sorted(source),
         }
     );
     
@@ -54,7 +54,7 @@ export default (source, config) => {
     source.test = {
         canonical,
         sts,
-        auth
+        auth,
     };
     /* END.TESTSONLY */
 

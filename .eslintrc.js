@@ -3,8 +3,15 @@
 module.exports = {
     extends : "@tivac",
     
+    parserOptions : {
+        ecmaVersion : 6,
+        sourceType  : "module",
+    },
+
     env : {
-        node : true
+        es6  : true,
+        node : true,
+        jest : true,
     },
 
     rules : {

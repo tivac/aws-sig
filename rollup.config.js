@@ -20,8 +20,8 @@ module.exports = [
         }],
 
         external : [
-            "strict-uri-encode"
-        ]
+            "strict-uri-encode",
+        ],
     },
 
     // browser UMD build
@@ -41,9 +41,9 @@ module.exports = [
             require("rollup-plugin-buble")(),
             require("rollup-plugin-strip-code")({
                 start_comment : "START.TESTSONLY",
-                end_comment   : "END.TESTSONLY"
+                end_comment   : "END.TESTSONLY",
             }),
-            require("rollup-plugin-uglify")()
-        ]
+            require("rollup-plugin-uglify")(),
+        ],
     },
 ];

@@ -13,7 +13,7 @@ const dir = fs.readdirSync("./test/specimens/aws-sig-v4-test-suite");
 
 const ignored = [
     // Request parsing lib just doesn't handle this atm, don't think I care given intended usage
-    "get-header-value-multiline"
+    "get-header-value-multiline",
 ];
 
 describe("AWS Signature v4 Test Suite", () => {

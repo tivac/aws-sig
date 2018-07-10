@@ -14,8 +14,8 @@ describe("aws-sig", () => {
 
                     z : 1,
                     a : 1,
-                    m : 1
-                }
+                    m : 1,
+                },
             }, config())
         ).toMatchSnapshot();
     });

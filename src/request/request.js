@@ -26,6 +26,6 @@ export default (req) => {
         signed(sortedHeaders),
 
         // Hashed payload
-        hash(typeof body === "string" ? body.trim() : body)
+        hash(typeof body === "string" ? body.trim() : body),
     ].join("\n");
 };
