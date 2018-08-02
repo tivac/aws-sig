@@ -85,15 +85,6 @@ export default (source, config) => {
     const sig = signature(details, sts);
     const auth = authorization(details, sig);
 
-    /* START.TESTSONLY */
-    // Add partial output to response for tests
-    source.test = {
-        canonical,
-        sts,
-        auth,
-    };
-    /* END.TESTSONLY */
-
     if(!source.headers) {
         source.headers = {};
     }
@@ -105,6 +96,15 @@ export default (source, config) => {
     }
     
     source.headers.Authorization = auth;
+
+    // Add partial output to response for tests so each step can be validated
+    if(ISTESTING) {
+        source.test = {
+            canonical,
+            sts,
+            auth,
+        };
+    }
 
     return source;
 };

@@ -8,6 +8,10 @@ module.exports = {
         sourceType  : "module",
     },
 
+    globals : {
+        ISTESTING : true
+    },
+
     env : {
         es6  : true,
         node : true,

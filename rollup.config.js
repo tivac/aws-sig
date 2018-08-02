@@ -4,6 +4,10 @@ const pkg = require("./package.json");
 
 const input = "./src/index.js";
 
+const replace = require("rollup-plugin-replace")({
+    ISTESTING : Boolean(process.env.ISTESTING),
+});
+
 module.exports = [
     // ESM & CJS builds
     {
@@ -22,6 +26,10 @@ module.exports = [
         external : [
             "strict-uri-encode",
         ],
+
+        plugins : [
+            replace,
+        ],
     },
 
     // browser UMD build
@@ -36,13 +44,10 @@ module.exports = [
         },
 
         plugins : [
+            replace,
             require("rollup-plugin-node-resolve")(),
             require("rollup-plugin-commonjs")(),
             require("rollup-plugin-buble")(),
-            require("rollup-plugin-strip-code")({
-                start_comment : "START.TESTSONLY",
-                end_comment   : "END.TESTSONLY",
-            }),
             require("rollup-plugin-uglify").uglify(),
         ],
     },
