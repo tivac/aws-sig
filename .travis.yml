@@ -20,6 +20,9 @@ after_success:
     # Only commit build artifacts on one node to avoid git errors
     if [ "$TRAVIS_NODE_VERSION" == "node" ]
     then
+      # Build w/o the testing flag set so testing code will be removed
+      npm run build
+
       # Force add files in ./dist, despite the .gitignore
       git add --force ./dist
 
