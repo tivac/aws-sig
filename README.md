@@ -1,4 +1,4 @@
-# 🔏 aws-sig [![NPM Version](https://img.shields.io/npm/v/aws-sig.svg)](https://www.npmjs.com/package/aws-sig) [![NPM License](https://img.shields.io/npm/l/aws-sig.svg)](https://www.npmjs.com/package/aws-sig) [![NPM Downloads](https://img.shields.io/npm/dm/aws-sig.svg)](https://www.npmjs.com/package/aws-sig) [![Build Status](https://img.shields.io/travis/tivac/aws-sig/master.svg)](https://travis-ci.org/tivac/aws-sig)
+# 🔏 aws-sig [![NPM Version](https://img.shields.io/npm/v/aws-sig.svg)](https://www.npmjs.com/package/aws-sig) [![NPM License](https://img.shields.io/npm/l/aws-sig.svg)](https://www.npmjs.com/package/aws-sig) [![NPM Downloads](https://img.shields.io/npm/dm/aws-sig.svg)](https://www.npmjs.com/package/aws-sig) [![Build Status](https://img.shields.io/travis/tivac/aws-sig/master.svg)](https://travis-ci.org/tivac/aws-sig) [![Greenkeeper badge](https://badges.greenkeeper.io/tivac/aws-sig.svg)](https://greenkeeper.io/)
 
 Teeny-tiny library for signing requests to Amazon Web Services using the [signature v4 signing algorithm](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
 
