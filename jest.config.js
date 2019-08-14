@@ -6,4 +6,9 @@ module.exports = {
     ],
 
     clearMocks : true,
+
+    coveragePathIgnorePatterns : [
+        "/node_modules/",
+        "/src/crypto-es/",
+    ],
 };
