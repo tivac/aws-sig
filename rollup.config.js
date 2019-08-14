@@ -48,7 +48,7 @@ module.exports = [
             require("rollup-plugin-node-resolve")(),
             require("rollup-plugin-commonjs")(),
             require("rollup-plugin-buble")(),
-            require("rollup-plugin-uglify").uglify(),
+            require("rollup-plugin-terser").terser(),
         ],
     },
 ];

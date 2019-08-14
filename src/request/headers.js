@@ -26,7 +26,7 @@ const signed = (headers) => {
 const sorted = ({ headers = {} }) => {
     const out = Object.keys(headers).map((key) => [ key.toLowerCase(), headers[key] ]);
 
-    return out.sort((a, b) => a[0] > b[0]);
+    return out.sort(([ keya ], [ keyb ]) => keya.localeCompare(keyb));
 };
 
 export { sorted, values, signed };

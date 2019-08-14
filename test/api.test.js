@@ -2,9 +2,9 @@
 
 const config = require("./lib/config.js");
 
-const sign = require("../dist/aws-sig.cjs.js");
+const sign = require("../src/index.js");
 
-describe("aws-sig", () => {
+describe("aws-sig API", () => {
     it("should sort SignedHeaders by name", () => {
         expect(
             sign({
@@ -47,5 +47,29 @@ describe("aws-sig", () => {
         expect(() =>
             sign({ url : "https://aws.amazon.com" }, conf)
         ).toThrowErrorMatchingSnapshot();
+    });
+
+    it("should encode each path segment (#12)", () => {
+        expect(
+            sign({
+                url : "https://aws.amazon.com/arn:foo:bar::baz{more~garbage}",
+            }, config())
+        ).toMatchSnapshot();
+    });
+
+    it("should clean up paths with relative directory specifiers", () => {
+        expect(
+            sign({
+                url : "https://aws.amazon.com/foo/./bar/../baz",
+            }, config()).test.canonical
+        ).toMatchSnapshot();
+    });
+    
+    it("should clean up paths with multiple slashes", () => {
+        expect(
+            sign({
+                url : "https://aws.amazon.com/foo/////bar",
+            }, config()).test.canonical
+        ).toMatchSnapshot();
     });
 });
