@@ -14,7 +14,7 @@ export default ({ url }) => url.pathname
                 return prev;
             }
             
-            prev.push(curr);
+            prev.push(encodeURIComponent(curr));
 
             return prev;
         }, [])

@@ -65,6 +65,10 @@ const authorization = (req, sig) => {
 export default (source, config) => {
     validate(source, config);
 
+    if(!source.headers) {
+        source.headers = {};
+    }
+
     const details = Object.assign(
         Object.create(null),
         {
@@ -84,10 +88,6 @@ export default (source, config) => {
     const sts = stringToSign(details, canonical);
     const sig = signature(details, sts);
     const auth = authorization(details, sig);
-
-    if(!source.headers) {
-        source.headers = {};
-    }
 
     source.headers["X-Amz-Date"] = details.date.long;
     

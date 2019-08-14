@@ -48,4 +48,12 @@ describe("aws-sig", () => {
             sign({ url : "https://aws.amazon.com" }, conf)
         ).toThrowErrorMatchingSnapshot();
     });
+
+    it("should encode each path segment (#12)", () => {
+        expect(
+            sign({
+                url : "https://aws.amazon.com/arn:foo:bar::baz{more~garbage}",
+            }, config())
+        ).toMatchSnapshot();
+    });
 });
