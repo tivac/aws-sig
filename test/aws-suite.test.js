@@ -7,14 +7,18 @@ const parse  = require("./lib/parse-request.js");
 const build  = require("./lib/build-request.js");
 const config = require("./lib/config.js");
 
-const sign = require("../dist/aws-sig.cjs.js");
+const sign = require("../src/index.js");
 
 const dir = fs.readdirSync("./test/specimens/aws-sig-v4-test-suite");
 
-const ignored = [
+const ignored = new Set([
     // Request parsing lib just doesn't handle this atm, don't think I care given intended usage
     "get-header-value-multiline",
-];
+]);
+
+const focused = new Set([
+    // "normalize-path-get-space",
+]);
 
 describe("AWS Signature v4 Test Suite", () => {
     const specimens = new Map();
@@ -40,7 +44,7 @@ describe("AWS Signature v4 Test Suite", () => {
     specimens.forEach((files, name) => {
         const conf = config({ token : name.includes("token") });
         
-        if(ignored.indexOf(name) > -1) {
+        if(ignored.has(name)) {
             it.skip(`Skipping ${name}`, () => {
                 // TODO: required by jest
             });
@@ -48,22 +52,24 @@ describe("AWS Signature v4 Test Suite", () => {
             return;
         }
 
+        const fn = focused.has(name) ? it.only : it;
+
         const req = parse(files.get("req"));
         const signed = sign(req, conf);
         
-        it(`${name} - canonical request`, () => {
+        fn(`${name} - canonical request`, () => {
             expect(signed.test.canonical).toEqual(files.get("creq"));
         });
 
-        it(`${name} - string to sign`, () => {
+        fn(`${name} - string to sign`, () => {
             expect(signed.test.sts).toEqual(files.get("sts"));
         });
 
-        it(`${name} - Authorization value`, () => {
+        fn(`${name} - Authorization value`, () => {
             expect(signed.test.auth).toEqual(files.get("authz"));
         });
 
-        it(`${name} - Request`, () => {
+        fn(`${name} - Request`, () => {
             expect(build(signed)).toEqual(files.get("sreq"));
         });
     });
