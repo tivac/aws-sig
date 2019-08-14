@@ -2,9 +2,9 @@
 
 const config = require("./lib/config.js");
 
-const sign = require("../dist/aws-sig.cjs.js");
+const sign = require("../src/index.js");
 
-describe("aws-sig", () => {
+describe("aws-sig API", () => {
     it("should sort SignedHeaders by name", () => {
         expect(
             sign({

@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`aws-sig API should be precise about the missing config param values 1`] = `"Missing required config fields: accessKeyId, region"`;
+
+exports[`aws-sig API should encode each path segment (#12) 1`] = `
+Object {
+  "headers": Object {
+    "Authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/19831116/us-east-1/service/aws4_request, SignedHeaders=, Signature=b1c7fb779bf18d987e96fed6d71247590408df7208a3da8c252b7907fa6df79f",
+    "X-Amz-Date": "19831116T080000Z",
+  },
+  "test": Object {
+    "auth": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/19831116/us-east-1/service/aws4_request, SignedHeaders=, Signature=b1c7fb779bf18d987e96fed6d71247590408df7208a3da8c252b7907fa6df79f",
+    "canonical": "GET
+/arn%3Afoo%3Abar%3A%3Abaz%7Bmore~garbage%7D
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sts": "AWS4-HMAC-SHA256
+19831116T080000Z
+19831116/us-east-1/service/aws4_request
+7788c680982fb947719f41a6186e1cea797c12009fb2cd86d50f83f16fb12a2e",
+  },
+  "url": "https://aws.amazon.com/arn:foo:bar::baz{more~garbage}",
+}
+`;
+
+exports[`aws-sig API should sort SignedHeaders by name 1`] = `
+Object {
+  "headers": Object {
+    "Authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20150830/us-east-1/service/aws4_request, SignedHeaders=a;m;x-amz-date;z, Signature=d5b729b777af569c5e22fbf1d1a27fad8d490b6fc3c7a5e1a54542bfa68c0998",
+    "X-Amz-Date": "20150830T123600Z",
+    "a": 1,
+    "m": 1,
+    "z": 1,
+  },
+  "test": Object {
+    "auth": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20150830/us-east-1/service/aws4_request, SignedHeaders=a;m;x-amz-date;z, Signature=d5b729b777af569c5e22fbf1d1a27fad8d490b6fc3c7a5e1a54542bfa68c0998",
+    "canonical": "GET
+/
+
+a:1
+m:1
+x-amz-date:20150830T123600Z
+z:1
+
+a;m;x-amz-date;z
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sts": "AWS4-HMAC-SHA256
+20150830T123600Z
+20150830/us-east-1/service/aws4_request
+3d94ead6a8f2253deb74d7183e308aaa8c311c7f8248b19b69667f65639de28c",
+  },
+  "url": "https://aws.amazon.com",
+}
+`;
+
+exports[`aws-sig API should throw on a missing config param values 1`] = `"Missing required config fields: accessKeyId, region, secretAccessKey, service"`;
+
+exports[`aws-sig API should throw on a missing request param 1`] = `"Missing request object"`;
+
+exports[`aws-sig API should throw on missing config param 1`] = `"Missing config object"`;
