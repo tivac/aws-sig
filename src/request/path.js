@@ -10,7 +10,6 @@ export default ({ url }) => {
     return path
         .replace(multipleSlashesRegex, "/")
         .split("/")
-        // ensure all path parts are encoded, per sigv4 spec
-        .map((part) => encode(part))
+        .map(encode)
         .join("/");
 };

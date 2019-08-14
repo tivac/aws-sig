@@ -61,7 +61,15 @@ describe("aws-sig API", () => {
         expect(
             sign({
                 url : "https://aws.amazon.com/foo/./bar/../baz",
-            }, config())
+            }, config()).test.canonical
+        ).toMatchSnapshot();
+    });
+    
+    it("should clean up paths with multiple slashes", () => {
+        expect(
+            sign({
+                url : "https://aws.amazon.com/foo/////bar",
+            }, config()).test.canonical
         ).toMatchSnapshot();
     });
 });
