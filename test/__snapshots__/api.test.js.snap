@@ -2,6 +2,30 @@
 
 exports[`aws-sig API should be precise about the missing config param values 1`] = `"Missing required config fields: accessKeyId, region"`;
 
+exports[`aws-sig API should clean up paths with relative directory specifiers 1`] = `
+Object {
+  "headers": Object {
+    "Authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/19831116/us-east-1/service/aws4_request, SignedHeaders=, Signature=1f929eb351326407e2b1a8fbe02e4b8f815735d4e5db1f5a993dd6902c5bdfa4",
+    "X-Amz-Date": "19831116T080000Z",
+  },
+  "test": Object {
+    "auth": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/19831116/us-east-1/service/aws4_request, SignedHeaders=, Signature=1f929eb351326407e2b1a8fbe02e4b8f815735d4e5db1f5a993dd6902c5bdfa4",
+    "canonical": "GET
+/foo/baz
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sts": "AWS4-HMAC-SHA256
+19831116T080000Z
+19831116/us-east-1/service/aws4_request
+eb74f8374103e5d08fe362b3863a37c44f8c8b06a5bd9c24bca1fb315aedc59f",
+  },
+  "url": "https://aws.amazon.com/foo/./bar/../baz",
+}
+`;
+
 exports[`aws-sig API should encode each path segment (#12) 1`] = `
 Object {
   "headers": Object {

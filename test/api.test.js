@@ -56,4 +56,12 @@ describe("aws-sig API", () => {
             }, config())
         ).toMatchSnapshot();
     });
+
+    it("should clean up paths with relative directory specifiers", () => {
+        expect(
+            sign({
+                url : "https://aws.amazon.com/foo/./bar/../baz",
+            }, config())
+        ).toMatchSnapshot();
+    });
 });
