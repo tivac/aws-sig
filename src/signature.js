@@ -1,4 +1,4 @@
-import { hmac } from "./encode.js";
+import { hmac } from "./hash.js";
 
 export default ({ date, secretAccessKey, region, service }, sts) => {
     const kDate = hmac(date.short, `AWS4${secretAccessKey}`);

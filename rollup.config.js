@@ -23,10 +23,6 @@ module.exports = [
             sourcemap : true,
         }],
 
-        external : [
-            "strict-uri-encode",
-        ],
-
         plugins : [
             replace,
         ],

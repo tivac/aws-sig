@@ -1,4 +1,4 @@
-import { hash } from "../encode.js";
+import { hash } from "../hash.js";
 
 import query from "./query.js";
 import { values, signed } from "./headers.js";
