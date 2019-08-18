@@ -30,7 +30,7 @@ describe("bundle test", () => {
 
         const transformed = transformSync(code);
 
-        const sign = requireFromString(transformed);
+        const sign = requireFromString(transformed.code);
 
         expect(
             sign({
