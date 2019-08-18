@@ -1,3 +1,5 @@
+import testing from "consts:testing";
+
 import request from "./request/request.js";
 import { sorted } from "./request/headers.js";
 import stringToSign from "./stringtosign.js";
@@ -57,7 +59,7 @@ export default (source, config) => {
 
     // Add partial output to response for tests so each step can be validated
     /* istanbul ignore next */
-    if(ISTESTING) {
+    if(testing) {
         source.test = {
             canonical,
             sts,

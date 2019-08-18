@@ -1,3 +1,5 @@
+"use strict";
+
 beforeAll(() => {
     const spy = jest.spyOn(global.Date, "now");
 
