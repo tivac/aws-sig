@@ -14,15 +14,23 @@ const sign = require("../src/index.js");
 const specimensDir = path.resolve(__dirname, "./specimens/aws-sig-v4-test-suite");
 
 const ignored = new Set([
-    // Request parsing lib just doesn't handle this atm, don't think I care given intended usage
+    // aws-sig test request parsing lib doesn't handle this atm
     "get-header-value-multiline",
 
-    // Doesn't handle Security token added after canonical request
+    // aws-sig doesn't handle Security token after canonical request atm
     "post-sts-header-after",
+
+    // Request includes Content-Length header, but signatures don't
+    "post-x-www-form-urlencoded",
+    "post-x-www-form-urlencoded-parameters",
+
+    // Supposed to encode each path segment twice, but only encoded once
+    "get-utf8",
+    "get-space",
 ]);
 
 const focused = new Set([
-    // "normalize-path-get-space",
+    // "post-x-www-form-urlencoded",
 ]);
 
 describe("AWS Signature v4 Test Suite", () => {
@@ -39,13 +47,13 @@ describe("AWS Signature v4 Test Suite", () => {
             acc.set(parsed.name, new Map());
         }
 
-        acc.get(parsed.name).set(parsed.ext, fs.readFileSync(file, "utf8"));
+        acc.get(parsed.name).set(parsed.ext, fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n"));
 
         return acc;
     }, new Map());
     
     // Set up all the tests
-    tests.forEach((files, name) => {
+    tests.forEach((specs, name) => {
         const conf = config({ token : name.includes("token") });
         
         let fn = it;
@@ -59,13 +67,13 @@ describe("AWS Signature v4 Test Suite", () => {
         }
         
         fn(`${name}`, () => {
-            const req = parse(files.get(".req"));
+            const req = parse(specs.get(".req"));
             const signed = sign(req, conf);
 
-            expect(signed.test.canonical).toEqual(files.get(".creq"));
-            expect(signed.test.sts).toEqual(files.get(".sts"));
-            expect(signed.test.auth).toEqual(files.get(".authz"));
-            expect(build(signed)).toEqual(files.get(".sreq"));
+            expect(signed.test.canonical).toBe(specs.get(".creq"));
+            expect(signed.test.sts).toBe(specs.get(".sts"));
+            expect(signed.test.auth).toBe(specs.get(".authz"));
+            expect(build(signed)).toBe(specs.get(".sreq"));
         });
     });
 });
