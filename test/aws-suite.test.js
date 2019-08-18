@@ -17,14 +17,11 @@ const ignored = new Set([
     // aws-sig test request parsing lib doesn't handle this atm
     "get-header-value-multiline",
 
-    // aws-sig doesn't handle Security token after canonical request atm
-    "post-sts-header-after",
-
-    // Request includes Content-Length header, but signatures don't
+    // TEST SUITE ISSUE: Request includes Content-Length header, but signatures don't
     "post-x-www-form-urlencoded",
     "post-x-www-form-urlencoded-parameters",
 
-    // Supposed to encode each path segment twice, but only encoded once
+    // TEST SUITE ISSUE: Supposed to encode each path segment twice, but only encoded once
     "get-utf8",
     "get-space",
 ]);
@@ -54,7 +51,9 @@ describe("AWS Signature v4 Test Suite", () => {
     
     // Set up all the tests
     tests.forEach((specs, name) => {
-        const conf = config({ token : name.includes("token") });
+        const conf = config({
+            token : name === "post-sts-header-after",
+        });
         
         let fn = it;
         
