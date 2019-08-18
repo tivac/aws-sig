@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bundle test should sign requests 1`] = `
+Object {
+  "headers": Object {
+    "Authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20150830/us-east-1/service/aws4_request, SignedHeaders=x-amz-date, Signature=89495e6980bd197c7dc79990923c6f64d140f76015352de399a981b6990a2c13",
+    "X-Amz-Date": "20150830T123600Z",
+  },
+  "test": Object {
+    "auth": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20150830/us-east-1/service/aws4_request, SignedHeaders=x-amz-date, Signature=89495e6980bd197c7dc79990923c6f64d140f76015352de399a981b6990a2c13",
+    "canonical": "GET
+/foo
+
+x-amz-date:20150830T123600Z
+
+x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sts": "AWS4-HMAC-SHA256
+20150830T123600Z
+20150830/us-east-1/service/aws4_request
+0f20062628b8dd2af63905b61f3af43e7007f615421ccbdd0a9a440fa0befeae",
+  },
+  "url": "https://aws.amazon.com/foo",
+}
+`;
