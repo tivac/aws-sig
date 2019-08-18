@@ -8,7 +8,7 @@ export default (req) => {
     const { method, body, sortedHeaders } = req;
 
     return [
-        method ? method.toUpperCase() : "GET",
+        method.toUpperCase(),
         
         // Canonical Path
         path(req),

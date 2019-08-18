@@ -56,6 +56,7 @@ export default (source, config) => {
     source.headers.Authorization = auth;
 
     // Add partial output to response for tests so each step can be validated
+    /* istanbul ignore next */
     if(ISTESTING) {
         source.test = {
             canonical,

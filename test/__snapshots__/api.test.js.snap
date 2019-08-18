@@ -82,6 +82,16 @@ exports[`aws-sig API should double-encode each path segment (/foo%20bar) 1`] = `
 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 `;
 
+exports[`aws-sig API should double-encode each path segment (/foo*) 1`] = `
+"GET
+/foo%2A
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+`;
+
 exports[`aws-sig API should double-encode each path segment (/ü) 1`] = `
 "GET
 /%25C3%25BC

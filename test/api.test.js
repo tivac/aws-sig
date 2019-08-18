@@ -73,6 +73,7 @@ describe("aws-sig API", () => {
         "/%41",
         "/ü",
         "/arn%3Aaws%3Aservice%3Aus-west-2%3A%3Aident%2Fid1%2Fid2",
+        "/foo*",
     ])("should double-encode each path segment (%s)", (path) => {
         expect(
             sign({

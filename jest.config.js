@@ -10,5 +10,6 @@ module.exports = {
     coveragePathIgnorePatterns : [
         "/node_modules/",
         "/src/crypto-es/",
+        "/test/",
     ],
 };
