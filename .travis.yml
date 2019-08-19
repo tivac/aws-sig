@@ -7,35 +7,21 @@ node_js:
 matrix:
   fast_finish: true
 
-script: npm test -- --coverage --verbose
-
-after_success:
-  - |
-    $(npm bin)/set-up-ssh \
-      --key "$encrypted_1001587ab084_key" \
-      --iv "$encrypted_1001587ab084_iv" \
-      --path-encrypted-key ".travis/github_deploy_key.enc"
-
-    # Only commit build artifacts on one node to avoid git errors
-    if [ "$TRAVIS_NODE_VERSION" == "node" ]
-    then
-      # Build w/o the testing flag set so testing code will be removed
-      npm run build
-
-      # Force add files in ./dist, despite the .gitignore
-      git add --force ./dist
-
-      # --commands is unecessary but required, so it's effectively a no-op
-      # --branch makes sure this only happens on master
-      $(npm bin)/commit-changes \
-        --commands "echo committing changes" \
-        --commit-message "Bundled output for commit $TRAVIS_COMMIT [skip ci]" \
-        --branch "master"
-    fi
+script: npm test -- --ci --verbose
 
 env:
   global:
     - secure: "JdYaM+SoHMay0sR5aqTzAt7BM7W/v8HbuXm14nEfUbXMhkDQi44qyAJCh35qLw/Zb8cWgOSQsMUQXoyLSsfTNDbml6UrVJC6t6EQ2bGLx+Wj6+PNyE1qm/BZDI9TIWD8oZ+95jNVfpjFzmLUTqMmFm    4fdXnDV76orGYfMN2IPBOoK3Lh2jicSh5Cxy0DvL8Y4QxsySO8kGyzKGetFZnrsvg3eABDSjI5Hp99DUmMpbD8LyEx68mYwnFpBo6Xf36AoTvpk5FDYXVmM1a5LTlluOKYv5ccBgBkvhA+W3uwNQ4ENWuP2dWkmdB4LyEfBRad7jDUXx8doI8jJYHURRKUZRNF5gFHhYVwbe3oJy4ggBoN9W+zTENtb6811JDv5gaqEayBPoO74N67pZxhPomWPWA77d5Zy0g8vsIeJd8TqRgiaQ0+BVG4X1pNzQwu5EKkekZAerU1yG/jTSzfB6T7vN2P2ND2MOmRteYezsH1aJjePCsjH/+Rmb8xTgwEMGHNfQawBqUtPg3mONnC3qxTmmRbK+7DadNplI92CtLJ7pRJV2lrkBnzN2we0gt2Vh/Ydo62WCrrJ/5eTZnsHcy61W5CUNIvbTzndCmzsZPR5K9+OAfW5YzYhYQAOhJgZtFkESGYWz9WWYLKcy0l2YTw2VVdLa3GsYlrmyWpy+oefFY="
+
+# Run codecov after all builds, and only
+# on a single environment
+jobs:
+  include:
+    - stage: Code Coverage
+      node_js: node
+      script:
+      - npm test -- --ci --coverage
+      - npx codecov
 
 deploy:
   - provider: npm
