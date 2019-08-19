@@ -81,4 +81,16 @@ describe("aws-sig API", () => {
             }, config()).test.canonical
         ).toMatchSnapshot();
     });
+
+    it("should leave S3 paths alone", () => {
+        const conf = config();
+
+        conf.service = "s3";
+        
+        expect(
+            sign({
+                url : `https://aws.amazon.com/s3//allows//for//weird.paths`,
+            }, conf).test.canonical
+        ).toMatchSnapshot();
+    });
 });

@@ -102,6 +102,16 @@ exports[`aws-sig API should double-encode each path segment (/ü) 1`] = `
 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 `;
 
+exports[`aws-sig API should leave S3 paths alone 1`] = `
+"GET
+/s3//allows//for//weird.paths
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+`;
+
 exports[`aws-sig API should sort SignedHeaders by name 1`] = `
 Object {
   "headers": Object {
