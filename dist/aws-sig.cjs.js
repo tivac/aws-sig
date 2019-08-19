@@ -1,9 +1,5 @@
 'use strict';
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var encode = _interopDefault(require('strict-uri-encode'));
-
 /**
  * CryptoJS core components.
  */
@@ -1049,6 +1045,15 @@ const hash = (str) =>
 
 const hmac = HmacSHA256;
 
+// Replace one extra character beyond what encodeURIComponent does, "*"
+// See https://github.com/aws/aws-sdk-js/blob/38bf84c144281f696768e8c64500f2847fe6f298/lib/util.js#L39-L49
+const encode = (str) =>
+    encodeURIComponent(str)
+    .replace(/[*]/g, (x) =>
+        // eslint-disable-next-line newline-per-chained-call
+        `%${x.charCodeAt(0).toString(16).toUpperCase()}`
+    );
+
 const sort = (a, b) => a.localeCompare(b);
 
 // Sort query parameters by key
@@ -1106,36 +1111,30 @@ const signed = (headers) => {
 const sorted = ({ headers = {} }) => {
     const out = Object.keys(headers).map((key) => [ key.toLowerCase(), headers[key] ]);
 
-    return out.sort((a, b) => a[0] > b[0]);
+    return out.sort(([ keya ], [ keyb ]) => keya.localeCompare(keyb));
 };
 
 const multipleSlashesRegex = /\/\/+/g;
 
-var path = ({ url }) => url.pathname
+var path = ({ service, url }) => {
+    // S3 doesn't use normalized paths at all
+    if(service === "s3") {
+        return url.pathname;
+    }
+    
+    return url.pathname
         .replace(multipleSlashesRegex, "/")
         .split("/")
-        .reduce((prev, curr) => {
-            if(curr === "..") {
-                prev.pop();
-
-                return prev;
-            }
-            
-            if(curr === ".") {
-                return prev;
-            }
-            
-            prev.push(curr);
-
-            return prev;
-        }, [])
+        .map(encode)
         .join("/");
+};
 
 var request = (req) => {
     const { method, body, sortedHeaders } = req;
 
+    // https://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
     return [
-        method ? method.toUpperCase() : "GET",
+        method.toUpperCase(),
         
         // Canonical Path
         path(req),
@@ -1172,6 +1171,7 @@ var stringToSign = ({ algorithm, date, region, service }, canonical) => [
         hash(canonical),
     ].join("\n");
 
+// https://docs.aws.amazon.com/general/latest/gr/sigv4-calculate-signature.html
 var signature = ({ date, secretAccessKey, region, service }, sts) => {
     const kDate = hmac(date.short, `AWS4${secretAccessKey}`);
     const kRegion = hmac(region, kDate);
@@ -1180,8 +1180,6 @@ var signature = ({ date, secretAccessKey, region, service }, sts) => {
 
     return hmac(sts, kSignature);
 };
-
-const dateCleanRegex = /[:\-]|\.\d{3}/g;
 
 const requestRequired = [
     "url",
@@ -1217,6 +1215,25 @@ const validate = (source, config) => {
     }
 };
 
+const authorization = (req, sig) => {
+    const {
+        algorithm,
+        accessKeyId,
+        date,
+        region,
+        service,
+        sortedHeaders,
+    } = req;
+
+    return [
+        `${algorithm} Credential=${accessKeyId}/${date.short}/${region}/${service}/aws4_request`,
+        `SignedHeaders=${signed(sortedHeaders)}`,
+        `Signature=${sig}`,
+    ].join(", ");
+};
+
+const dateCleanRegex = /[:\-]|\.\d{3}/g;
+
 const parseDate = ({ headers }) => {
     const datetime = "X-Amz-Date" in headers ?
         headers["X-Amz-Date"] :
@@ -1230,18 +1247,12 @@ const parseDate = ({ headers }) => {
     };
 };
 
-const authorization = (req, sig) => {
-    const { algorithm, accessKeyId, date, region, service, sortedHeaders } = req;
-
-    return [
-        `${algorithm} Credential=${accessKeyId}/${date.short}/${region}/${service}/aws4_request`,
-        `SignedHeaders=${signed(sortedHeaders)}`,
-        `Signature=${sig}`,
-    ].join(", ");
-};
-
 var index = (source, config) => {
     validate(source, config);
+
+    if(!source.headers) {
+        source.headers = {};
+    }
 
     const details = Object.assign(
         Object.create(null),
@@ -1257,15 +1268,11 @@ var index = (source, config) => {
             sortedHeaders : sorted(source),
         }
     );
-    
+
     const canonical = request(details);
     const sts = stringToSign(details, canonical);
     const sig = signature(details, sts);
     const auth = authorization(details, sig);
-
-    if(!source.headers) {
-        source.headers = {};
-    }
 
     source.headers["X-Amz-Date"] = details.date.long;
     
