@@ -7,6 +7,7 @@ import path from "./path.js";
 export default (req) => {
     const { method, body, sortedHeaders } = req;
 
+    // https://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
     return [
         method.toUpperCase(),
         
