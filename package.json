@@ -24,11 +24,11 @@
     "build": "rollup --config",
     "clean": "shx rm -rf dist/",
     "lint": "eslint .",
-    "prerelease": "npm run build",
     "release": "npm version -m \"v%s\"",
     "test": "jest",
     "posttest": "npm run lint",
     "preversion": "npm test",
+    "version": "npm run build && git add -A",
     "postversion": "git push --follow-tags"
   },
   "devDependencies": {
