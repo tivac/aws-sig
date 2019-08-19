@@ -1,12 +1,9 @@
 "use strict";
 
 const pkg = require("./package.json");
+const env = require("./build/rollup-environment.js");
 
 const input = "./src/index.js";
-
-const replace = require("rollup-plugin-replace")({
-    ISTESTING : Boolean(process.env.ISTESTING),
-});
 
 module.exports = [
     // ESM & CJS builds
@@ -23,12 +20,8 @@ module.exports = [
             sourcemap : true,
         }],
 
-        external : [
-            "strict-uri-encode",
-        ],
-
         plugins : [
-            replace,
+            env,
         ],
     },
 
@@ -44,7 +37,7 @@ module.exports = [
         },
 
         plugins : [
-            replace,
+            env,
             require("rollup-plugin-node-resolve")(),
             require("rollup-plugin-commonjs")(),
             require("rollup-plugin-buble")(),

@@ -12,7 +12,9 @@ module.exports = function(req) {
             values = [ values ];
         }
 
-        values.forEach((value) => headers.push(`${key}:${value}`));
+        const sep = key === "Authorization" ? ": " : ":";
+
+        values.forEach((value) => headers.push(`${key}${sep}${value}`));
     });
     
     let out = dedent(`
@@ -26,8 +28,6 @@ module.exports = function(req) {
             ${req.body}
         `);
     }
-
-    out += "\n";
 
     return out.replace(/\r\n/g, "\n");
 };

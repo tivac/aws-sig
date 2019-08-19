@@ -1,13 +1,14 @@
-import encode from "strict-uri-encode";
+import encode from "../encode.js";
 
 const multipleSlashesRegex = /\/\/+/g;
 
-export default ({ url }) => {
-    // URL() returns encoded values, so make sure to decode this first
-    // since later we'll encode each path part individually
-    const path = decodeURIComponent(url.pathname);
-
-    return path
+export default ({ service, url }) => {
+    // S3 doesn't use normalized paths at all
+    if(service === "s3") {
+        return url.pathname;
+    }
+    
+    return url.pathname
         .replace(multipleSlashesRegex, "/")
         .split("/")
         .map(encode)

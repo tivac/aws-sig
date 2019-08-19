@@ -22,28 +22,94 @@ exports[`aws-sig API should clean up paths with relative directory specifiers 1`
 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 `;
 
-exports[`aws-sig API should encode each path segment (#12) 1`] = `
-Object {
-  "headers": Object {
-    "Authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/19831116/us-east-1/service/aws4_request, SignedHeaders=, Signature=b1c7fb779bf18d987e96fed6d71247590408df7208a3da8c252b7907fa6df79f",
-    "X-Amz-Date": "19831116T080000Z",
-  },
-  "test": Object {
-    "auth": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/19831116/us-east-1/service/aws4_request, SignedHeaders=, Signature=b1c7fb779bf18d987e96fed6d71247590408df7208a3da8c252b7907fa6df79f",
-    "canonical": "GET
-/arn%3Afoo%3Abar%3A%3Abaz%7Bmore~garbage%7D
+exports[`aws-sig API should double-encode each path segment (/%2a) 1`] = `
+"GET
+/%252a
 
 
 
 
-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "sts": "AWS4-HMAC-SHA256
-19831116T080000Z
-19831116/us-east-1/service/aws4_request
-7788c680982fb947719f41a6186e1cea797c12009fb2cd86d50f83f16fb12a2e",
-  },
-  "url": "https://aws.amazon.com/arn:foo:bar::baz{more~garbage}",
-}
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+`;
+
+exports[`aws-sig API should double-encode each path segment (/%20) 1`] = `
+"GET
+/%2520
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+`;
+
+exports[`aws-sig API should double-encode each path segment (/%41) 1`] = `
+"GET
+/%2541
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+`;
+
+exports[`aws-sig API should double-encode each path segment (/arn%3Aaws%3Aservice%3Aus-west-2%3A%3Aident%2Fid1%2Fid2) 1`] = `
+"GET
+/arn%253Aaws%253Aservice%253Aus-west-2%253A%253Aident%252Fid1%252Fid2
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+`;
+
+exports[`aws-sig API should double-encode each path segment (/foo bar) 1`] = `
+"GET
+/foo%2520bar
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+`;
+
+exports[`aws-sig API should double-encode each path segment (/foo%20bar) 1`] = `
+"GET
+/foo%2520bar
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+`;
+
+exports[`aws-sig API should double-encode each path segment (/foo*) 1`] = `
+"GET
+/foo%2A
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+`;
+
+exports[`aws-sig API should double-encode each path segment (/ü) 1`] = `
+"GET
+/%25C3%25BC
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+`;
+
+exports[`aws-sig API should leave S3 paths alone 1`] = `
+"GET
+/s3//allows//for//weird.paths
+
+
+
+
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 `;
 
 exports[`aws-sig API should sort SignedHeaders by name 1`] = `

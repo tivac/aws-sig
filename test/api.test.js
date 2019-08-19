@@ -49,14 +49,6 @@ describe("aws-sig API", () => {
         ).toThrowErrorMatchingSnapshot();
     });
 
-    it("should encode each path segment (#12)", () => {
-        expect(
-            sign({
-                url : "https://aws.amazon.com/arn:foo:bar::baz{more~garbage}",
-            }, config())
-        ).toMatchSnapshot();
-    });
-
     it("should clean up paths with relative directory specifiers", () => {
         expect(
             sign({
@@ -70,6 +62,35 @@ describe("aws-sig API", () => {
             sign({
                 url : "https://aws.amazon.com/foo/////bar",
             }, config()).test.canonical
+        ).toMatchSnapshot();
+    });
+
+    it.each([
+        "/foo bar",
+        "/foo%20bar",
+        "/%20",
+        "/%2a",
+        "/%41",
+        "/ü",
+        "/arn%3Aaws%3Aservice%3Aus-west-2%3A%3Aident%2Fid1%2Fid2",
+        "/foo*",
+    ])("should double-encode each path segment (%s)", (path) => {
+        expect(
+            sign({
+                url : `https://aws.amazon.com${path}`,
+            }, config()).test.canonical
+        ).toMatchSnapshot();
+    });
+
+    it("should leave S3 paths alone", () => {
+        const conf = config();
+
+        conf.service = "s3";
+        
+        expect(
+            sign({
+                url : `https://aws.amazon.com/s3//allows//for//weird.paths`,
+            }, conf).test.canonical
         ).toMatchSnapshot();
     });
 });

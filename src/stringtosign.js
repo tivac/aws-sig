@@ -1,4 +1,4 @@
-import { hash } from "./encode.js";
+import { hash } from "./hash.js";
 
 // https://docs.aws.amazon.com/general/latest/gr/sigv4-create-string-to-sign.html
 export default ({ algorithm, date, region, service }, canonical) => [

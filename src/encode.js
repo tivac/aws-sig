@@ -1,9 +1,12 @@
-/* eslint-disable new-cap */
-import { SHA256, HmacSHA256 } from "./crypto-es/sha256.js";
+"use strict";
 
-const hash = (str) =>
-    SHA256(str).toString();
+// Replace one extra character beyond what encodeURIComponent does, "*"
+// See https://github.com/aws/aws-sdk-js/blob/38bf84c144281f696768e8c64500f2847fe6f298/lib/util.js#L39-L49
+const encode = (str) =>
+    encodeURIComponent(str)
+    .replace(/[*]/g, (x) =>
+        // eslint-disable-next-line newline-per-chained-call
+        `%${x.charCodeAt(0).toString(16).toUpperCase()}`
+    );
 
-const hmac = HmacSHA256;
-    
-export { hmac, hash };
+export default encode;

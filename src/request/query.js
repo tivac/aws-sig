@@ -1,4 +1,4 @@
-import encode from "strict-uri-encode";
+import encode from "../encode.js";
 
 const sort = (a, b) => a.localeCompare(b);
 
