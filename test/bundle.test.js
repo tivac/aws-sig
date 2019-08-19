@@ -17,9 +17,11 @@ describe("bundle test", () => {
             ],
         });
 
-        const { code } = await bundle.generate({
+        const { output } = await bundle.generate({
             format : "cjs",
         });
+        
+        const [{ code }] = output;
 
         const sign = requireFromString(code);
 
