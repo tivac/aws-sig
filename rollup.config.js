@@ -3,6 +3,8 @@
 const pkg = require("./package.json");
 const env = require("./build/rollup-environment.js");
 
+const banner = `/*! aws-sig@${pkg.version} !*/`;
+
 const input = "./src/index.js";
 
 module.exports = [
@@ -14,10 +16,12 @@ module.exports = [
             file      : pkg.main,
             format    : "cjs",
             sourcemap : true,
+            banner,
         }, {
             file      : pkg.module,
             format    : "es",
             sourcemap : true,
+            banner,
         }],
 
         plugins : [
@@ -34,6 +38,7 @@ module.exports = [
             file      : pkg.browser,
             format    : "umd",
             sourcemap : true,
+            banner,
         },
 
         plugins : [
@@ -41,7 +46,11 @@ module.exports = [
             require("rollup-plugin-node-resolve")(),
             require("rollup-plugin-commonjs")(),
             require("rollup-plugin-buble")(),
-            require("rollup-plugin-terser").terser(),
+            require("rollup-plugin-terser").terser({
+                output : {
+                    comments : /^!/,
+                },
+            }),
         ],
     },
 ];
