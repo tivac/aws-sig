@@ -10,7 +10,7 @@ jobs:
     
     strategy:
       matrix:
-        node_version: [ 8, 10, 12]
+        node_version: [ 10, 12]
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     steps:
@@ -23,10 +23,6 @@ jobs:
     
     - name: npm install
       run: npm install
-    
-    - name: URL Polyfill
-      if: matrix_node_version == '8'
-      run: npm i @webcomponents/url
     
     - name: Run Tests
       run: npm test -- --ci --verbose
