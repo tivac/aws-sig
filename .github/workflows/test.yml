@@ -1,0 +1,34 @@
+name: Tests
+
+on: [ push ]
+
+jobs:
+  test:
+    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        node_version: [ 8, 10, 12]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Use Node.js ${{ matrix.node_version }}
+      uses: actions/setup-node@v1
+      with:
+        version: ${{ matrix.node_version }}
+    
+    - name: npm install& test
+      run: |
+        npm install
+        npm test -- --ci --verbose
+
+    # Run codecov after all builds, and only on a single environment
+    - name: Code Coverage
+      if: matrix.os == 'ubuntu-latest' && matrix.node_version == 'node'
+      run: |
+        npm test -- --ci --coverage
+        npx codecov
