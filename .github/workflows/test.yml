@@ -3,6 +3,20 @@ name: Tests
 on: [ push ]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Lint
+      uses: gimenete/eslint-action@1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   test:
     name: node@${{ matrix.node_version }} on ${{ matrix.os }}
     
@@ -15,23 +29,23 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node_version }}
+    - name: Install node@${{ matrix.node_version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node_version }}
     
-    - name: npm install
-      run: npm install
+    - name: Install dependencies
+      run: npm ci
     
-    - name: Run Tests
+    - name: Test
       run: npm test -- --ci --verbose
 
     # Run codecov after all builds, and only on a single environment
-    - name: Code Coverage
+    - name: Gather Coverage
       if: matrix.os == 'ubuntu-latest' && matrix.node_version == '12'
       run: npm test -- --ci --coverage
     
-    - name: Upload coverage
+    - name: Upload Coverage
       uses: codecov/codecov-action@v1.0.2
       if: matrix.os == 'ubuntu-latest' && matrix.node_version == '12'
       with:
