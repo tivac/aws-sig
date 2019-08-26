@@ -10,7 +10,7 @@ jobs:
     
     strategy:
       matrix:
-        node_version: [ 10, 12]
+        node_version: [ 10, 12 ]
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     steps:
@@ -19,7 +19,7 @@ jobs:
     - name: Use Node.js ${{ matrix.node_version }}
       uses: actions/setup-node@v1
       with:
-        version: ${{ matrix.node_version }}
+        node-version: ${{ matrix.node_version }}
     
     - name: npm install
       run: npm install
@@ -29,7 +29,7 @@ jobs:
 
     # Run codecov after all builds, and only on a single environment
     - name: Code Coverage
-      if: matrix.os == 'ubuntu-latest' && matrix.node_version == 'node'
+      if: matrix.os == 'ubuntu-latest' && matrix.node_version == '12'
       run: |
         npm test -- --ci --coverage
         npx codecov
