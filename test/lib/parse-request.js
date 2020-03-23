@@ -7,7 +7,6 @@ module.exports = function parseReq(req) {
 
     // parsing POST / HTTP/1.1
     const [ , method, uri ] = details.match(/(.+) (\/.*) HTTP/);
-    const [ path, ...query ] = uri.split("?");
 
     // parsing headers
     let i = 0;
@@ -43,13 +42,13 @@ module.exports = function parseReq(req) {
 
     return {
         method,
-        url     : new URL(`https://${headers.Host}}${uri}`),
-        uri,
-        path,
-        query   : query.length ? query.join("?") : undefined,
+        url     : new URL(`https://${headers.Host}${uri}`).toString(),
         headers,
         region  : "us-east-1",
         service : "service",
         body,
+        
+        // This is only used by tests, aws-sig ignores it
+        _uri : uri,
     };
 };

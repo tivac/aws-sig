@@ -5,23 +5,33 @@ const env = require("./build/rollup-environment.js");
 
 const banner = `/*! aws-sig@${pkg.version} !*/`;
 
-const input = "./src/index.js";
+const input = "./src/aws-sig.js";
 
 module.exports = [
     // ESM & CJS builds
     {
-        input,
+        input : [
+            input,
+            "./src/signed-headers.js",
+            "./src/signed-query.js",
+        ],
 
         output : [{
-            file      : pkg.main,
+            dir       : "./dist",
             format    : "cjs",
             sourcemap : true,
             banner,
+            
+            entryFileNames : "[name].[format].js",
+            chunkFileNames : "[name].[format].js",
         }, {
-            file      : pkg.module,
+            dir       : "./dist",
             format    : "es",
             sourcemap : true,
             banner,
+
+            entryFileNames : "[name].[format].js",
+            chunkFileNames : "[name].[format].js",
         }],
 
         plugins : [

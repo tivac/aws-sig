@@ -2,11 +2,9 @@
 
 var dedent = require("dedent");
 
-module.exports = function(req) {
-    const headers = [];
-
-    Object.keys(req.headers).forEach((key) => {
-        let values = req.headers[key];
+module.exports = function(output, { _uri }) {
+    const headers = Object.keys(output.headers).reduce((acc, key) => {
+        let values = output.headers[key];
         
         if(!Array.isArray(values)) {
             values = [ values ];
@@ -14,20 +12,22 @@ module.exports = function(req) {
 
         const sep = key === "Authorization" ? ": " : ":";
 
-        values.forEach((value) => headers.push(`${key}${sep}${value}`));
-    });
-    
-    let out = dedent(`
-        ${req.method} ${req.uri} HTTP/1.1
+        values.forEach((value) => acc.push(`${key}${sep}${value}`));
+
+        return acc;
+    }, []);
+
+    let text = dedent(`
+        ${output.method} ${_uri} HTTP/1.1
         ${headers.join("\n")}
     `);
     
-    if(req.body) {
-        out += "\n\n";
-        out += dedent(`
-            ${req.body}
+    if(output.body) {
+        text += "\n\n";
+        text += dedent(`
+            ${output.body}
         `);
     }
 
-    return out.replace(/\r\n/g, "\n");
+    return text.replace(/\r\n/g, "\n");
 };

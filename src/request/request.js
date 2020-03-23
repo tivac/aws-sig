@@ -1,4 +1,4 @@
-import { hash } from "../hash.js";
+import { hash } from "../lib/hash.js";
 
 import query from "./query.js";
 import { values, signed } from "./headers.js";

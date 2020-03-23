@@ -2,17 +2,16 @@ import testing from "consts:testing";
 
 import request from "./request/request.js";
 import { sorted } from "./request/headers.js";
-import stringToSign from "./stringtosign.js";
-import signature from "./signature.js";
-import validate from "./validate.js";
-import authorization from "./authorization.js";
+import stringToSign from "./lib/stringtosign.js";
+import signature from "./lib/signature.js";
+import validate from "./lib/validate.js";
 
 const dateCleanRegex = /[:\-]|\.\d{3}/g;
 
-const parseDate = ({ headers }) => {
-    const datetime = "X-Amz-Date" in headers ?
-        headers["X-Amz-Date"] :
-        (new Date(headers.Date || Date.now()))
+const parseDate = ({ headers : { "X-Amz-Date" : amzdate, Date : date } }) => {
+    const datetime = amzdate ?
+        amzdate :
+        (new Date(date || Date.now()))
             .toISOString()
             .replace(dateCleanRegex, "");
 
@@ -22,14 +21,15 @@ const parseDate = ({ headers }) => {
     };
 };
 
-export default (source, config) => {
+// eslint-disable-next-line max-statements
+const sign = (source, config, { before, after }) => {
     validate(source, config);
 
     if(!source.headers) {
         source.headers = {};
     }
 
-    const details = Object.assign(
+    let details = Object.assign(
         Object.create(null),
         {
             method : "GET",
@@ -44,28 +44,42 @@ export default (source, config) => {
         }
     );
 
+    details = before(details);
+
     const canonical = request(details);
     const sts = stringToSign(details, canonical);
     const sig = signature(details, sts);
-    const auth = authorization(details, sig);
 
-    source.headers["X-Amz-Date"] = details.date.long;
-    
-    if(config.sessionToken) {
-        source.headers["X-Amz-Security-Token"] = config.sessionToken;
-    }
-    
-    source.headers.Authorization = auth;
+    details.signed = {
+        canonical,
+        stringToSign,
+        signature : sig,
+    };
 
     // Add partial output to response for tests so each step can be validated
     /* istanbul ignore next */
     if(testing) {
-        source.test = {
+        details.test = {
             canonical,
             sts,
-            auth,
         };
     }
+    
+    details = after(details);
 
-    return source;
+    const out = {
+        url     : details.url.toString(),
+        headers : details.headers,
+        method  : details.method,
+        body    : details.body,
+    };
+
+    /* istanbul ignore next */
+    if(testing) {
+        out.test = details.test;
+    }
+
+    return out;
 };
+
+export default sign;

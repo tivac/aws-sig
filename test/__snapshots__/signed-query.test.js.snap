@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`aws-sig signedQuery should support session tokens 1`] = `
+Object {
+  "body": undefined,
+  "headers": Object {
+    "host": "n98jarys75.execute-api.us-east-1.amazonaws.com",
+  },
+  "method": "GET",
+  "test": Object {
+    "canonical": "GET
+/test
+X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIDEXAMPLE%2F19831116%2Fus-east-1%2Fservice%2Faws4_request&X-Amz-Date=19831116T080000Z&X-Amz-Security-Token=I-AM-THE-WALRUS-KOO-KOO-KACHOO&X-Amz-SignedHeaders=host
+host:n98jarys75.execute-api.us-east-1.amazonaws.com
+
+host
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sts": "AWS4-HMAC-SHA256
+19831116T080000Z
+19831116/us-east-1/service/aws4_request
+b260f62e2090c31a4ce34a9e99eb21fcd72dba728d5eb5b71e390b5184b96e21",
+  },
+  "url": "wss://n98jarys75.execute-api.us-east-1.amazonaws.com/test?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIDEXAMPLE%2F19831116%2Fus-east-1%2Fservice%2Faws4_request&X-Amz-Date=19831116T080000Z&X-Amz-Security-Token=I-AM-THE-WALRUS-KOO-KOO-KACHOO&X-Amz-SignedHeaders=host&X-Amz-Signature=925383f10bdfc25378cc5b680d13b17673f8a95ff55e63de8bce9fd719803508",
+}
+`;
+
+exports[`aws-sig signedQuery should support signature params 1`] = `
+Object {
+  "body": undefined,
+  "headers": Object {
+    "host": "n98jarys75.execute-api.us-east-1.amazonaws.com",
+  },
+  "method": "GET",
+  "test": Object {
+    "canonical": "GET
+/test
+X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIDEXAMPLE%2F19831116%2Fus-east-1%2Fservice%2Faws4_request&X-Amz-Date=19831116T080000Z&X-Amz-SignedHeaders=host
+host:n98jarys75.execute-api.us-east-1.amazonaws.com
+
+host
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sts": "AWS4-HMAC-SHA256
+19831116T080000Z
+19831116/us-east-1/service/aws4_request
+c7e37688804ba4dcec9b55872aa89ef730bb5756fab9b53ce2f8ee0d34f3d932",
+  },
+  "url": "wss://n98jarys75.execute-api.us-east-1.amazonaws.com/test?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIDEXAMPLE%2F19831116%2Fus-east-1%2Fservice%2Faws4_request&X-Amz-Date=19831116T080000Z&X-Amz-SignedHeaders=host&X-Amz-Signature=51fcddf981bde5304f0455d4f2574eed8e239c291c170d7fd45bbbe10c357804",
+}
+`;
+
+exports[`aws-sig signedQuery should support signature params in the query with an already-existing query string 1`] = `
+Object {
+  "body": undefined,
+  "headers": Object {
+    "host": "n98jarys75.execute-api.us-east-1.amazonaws.com",
+  },
+  "method": "GET",
+  "test": Object {
+    "canonical": "GET
+/test
+booga=tooga&fooga=wooga&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIDEXAMPLE%2F19831116%2Fus-east-1%2Fservice%2Faws4_request&X-Amz-Date=19831116T080000Z&X-Amz-SignedHeaders=host
+host:n98jarys75.execute-api.us-east-1.amazonaws.com
+
+host
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sts": "AWS4-HMAC-SHA256
+19831116T080000Z
+19831116/us-east-1/service/aws4_request
+8a7d5d64ade07154c465dc25c2de26b1df858407878d911f1cb6266a17496784",
+  },
+  "url": "wss://n98jarys75.execute-api.us-east-1.amazonaws.com/test?fooga=wooga&booga=tooga&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIDEXAMPLE%2F19831116%2Fus-east-1%2Fservice%2Faws4_request&X-Amz-Date=19831116T080000Z&X-Amz-SignedHeaders=host&X-Amz-Signature=8d451074240b9c5ae27259556879fd5fbeb45eac9abb78c4d6e4941f3463e74c",
+}
+`;

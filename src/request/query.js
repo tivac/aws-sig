@@ -1,4 +1,4 @@
-import encode from "../encode.js";
+import encode from "../lib/encode.js";
 
 const sort = (a, b) => a.localeCompare(b);
 

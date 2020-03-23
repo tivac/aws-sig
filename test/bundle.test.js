@@ -10,7 +10,7 @@ const config = require("./lib/config.js");
 describe("bundle test", () => {
     it("should sign requests", async () => {
         const bundle = await rollup({
-            input : "./src/index.js",
+            input : "./src/aws-sig.js",
 
             plugins : [
                 env,
@@ -23,7 +23,7 @@ describe("bundle test", () => {
         
         const [{ code }] = output;
 
-        const sign = requireFromString(code);
+        const { signedHeaders : sign } = requireFromString(code);
 
         expect(
             sign({
