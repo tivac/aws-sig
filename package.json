@@ -24,7 +24,7 @@
     "build": "rollup --config",
     "clean": "shx rm -rf dist/",
     "lint": "eslint .",
-    "release": "npm version -m \"v%s\"",
+    "release": "npm version",
     "test": "jest",
     "posttest": "npm run lint",
     "preversion": "npm test",
