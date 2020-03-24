@@ -17,7 +17,7 @@
     "amazonwebservices"
   ],
   "main": "./dist/aws-sig.cjs.js",
-  "module": "./dist/aws-sig.esm.js",
+  "module": "./dist/aws-sig.es.js",
   "browser": "./dist/aws-sig.umd.js",
   "scripts": {
     "prebuild": "npm run clean",
