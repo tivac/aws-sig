@@ -9,7 +9,7 @@ const parse  = require("./lib/parse-request.js");
 const build  = require("./lib/build-request.js");
 const config = require("./lib/config.js");
 
-const sign = require("../src/index.js");
+const { signedHeaders : sign } = require("../src/aws-sig.js");
 
 const specimensDir = path.resolve(__dirname, "./specimens/aws-sig-v4-test-suite");
 
@@ -48,11 +48,13 @@ describe("AWS Signature v4 Test Suite", () => {
 
         return acc;
     }, new Map());
-    
+
     // Set up all the tests
     tests.forEach((specs, name) => {
         const conf = config({
-            token : name === "post-sts-header-after",
+            sessionToken : name === "post-sts-header-after" ?
+                "AQoDYXdzEPT//////////wEXAMPLEtc764bNrC9SAPBSM22wDOk4x4HIZ8j4FZTwdQWLWsKWHGBuFqwAeMicRXmxfpSPfIeoIYRqTflfKD8YUuwthAx7mSEI/qkPpKPi/kMcGdQrmGdeehM4IC1NtBmUpp2wUE8phUZampKsburEDy0KPkyQDYwT7WZ0wq5VSXDvp75YU9HFvlRd8Tx6q6fE8YQcHNVXAkiY9q6d+xo0rKwT38xVqr7ZD0u0iPPkUL64lIZbqBAz+scqKmlzm8FDrypNC9Yjc8fPOLn9FX9KSYvKTr4rvx3iSIlTJabIQwj2ICCR/oLxBA==" :
+                false,
         });
         
         let fn = it;
@@ -67,12 +69,13 @@ describe("AWS Signature v4 Test Suite", () => {
         
         fn(`${name}`, () => {
             const req = parse(specs.get(".req"));
+
             const signed = sign(req, conf);
 
             expect(signed.test.canonical).toBe(specs.get(".creq"));
             expect(signed.test.sts).toBe(specs.get(".sts"));
             expect(signed.test.auth).toBe(specs.get(".authz"));
-            expect(build(signed)).toBe(specs.get(".sreq"));
+            expect(build(signed, req)).toBe(specs.get(".sreq"));
         });
     });
 });

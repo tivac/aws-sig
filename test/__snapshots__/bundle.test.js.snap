@@ -2,10 +2,12 @@
 
 exports[`bundle test should sign requests 1`] = `
 Object {
+  "body": undefined,
   "headers": Object {
     "Authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20150830/us-east-1/service/aws4_request, SignedHeaders=x-amz-date, Signature=89495e6980bd197c7dc79990923c6f64d140f76015352de399a981b6990a2c13",
     "X-Amz-Date": "20150830T123600Z",
   },
+  "method": "GET",
   "test": Object {
     "auth": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20150830/us-east-1/service/aws4_request, SignedHeaders=x-amz-date, Signature=89495e6980bd197c7dc79990923c6f64d140f76015352de399a981b6990a2c13",
     "canonical": "GET

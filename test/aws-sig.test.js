@@ -2,9 +2,9 @@
 
 const config = require("./lib/config.js");
 
-const sign = require("../src/index.js");
+const { signedHeaders : sign } = require("../src/aws-sig.js");
 
-describe("aws-sig API", () => {
+describe("aws-sig core API", () => {
     it("should sort SignedHeaders by name", () => {
         expect(
             sign({

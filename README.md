@@ -1,6 +1,6 @@
 # 🔏 aws-sig [![NPM Version](https://img.shields.io/npm/v/aws-sig.svg)](https://www.npmjs.com/package/aws-sig) [![NPM License](https://img.shields.io/npm/l/aws-sig.svg)](https://www.npmjs.com/package/aws-sig) [![NPM Downloads](https://img.shields.io/npm/dm/aws-sig.svg)](https://www.npmjs.com/package/aws-sig) [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Ftivac%2Faws-sig%2Fbadge&style=flat)](https://actions-badge.atrox.dev/tivac/aws-sig/goto)
 
-Teeny-tiny library for signing requests to Amazon Web Services using the [signature v4 signing algorithm](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+Teeny-tiny library for signing requests to Amazon Web Services using the [signature v4 signing algorithm](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). Supports signing requests via `Authorization` header or query params.
 
 No serious, it's really small!
 
@@ -13,7 +13,7 @@ I wanted something small. Really, really small. Couldn't find a small AWS v4 sig
 ## ⚙️ How?
 
 ```js
-import sign from "aws-sig";
+import { signedHeaders, signedQuery } from "aws-sig";
 
 const config = {
     accessKeyId     : "AKIDEXAMPLE",
@@ -43,7 +43,48 @@ const request = {
     body : "..."
 };
 
-const signed = sign(request, config);
+const signed = signedHeaders(request, config);
+
+/**
+ * signed : {
+ *     url : "https://my.aws.url.that.i.need.to.hit/look/it-has/a-path-in-it-as-well"
+ *     method : "GET",
+ *     headers : {
+ *         X-Amz-Date : "20150830T123600Z",
+ *         "X-Multiple" : [ "one", "two", "three" ],
+ *         Authorization : "...",
+ *     },
+ *     body : "...",
+ * }
+ */
+
+// Signing queries is identical, just uses signedQuery() instead
+const config = {
+    accessKeyId     : "AKIDEXAMPLE",
+    secretAccessKey : "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
+
+    // sessionTokens are optional, but correctly supported
+    sessionToken    : "...",
+
+    // These can be part of the config object or the request object
+    region  : "us-east-1",
+    service : "service",
+};
+
+const request = {
+    url    : "https://my.aws.url.that.i.need.to.hit/look/it-has/a-path-in-it-as-well",
+};
+
+const signed = signedQuery(request, config);
+
+/**
+ * signed : {
+ *     url : "https://my.aws.url.that.i.need.to.hit/look/it-has/a-path-in-it-as-well?X-Amz-Algorithm=...&X-Amz-Credential=..."
+ *     method : "GET",
+ *     headers : {},
+ *     body : undefined,
+ * }
+ */
 ```
 
 ## 🛁 What?
