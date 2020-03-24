@@ -1,4 +1,4 @@
-/*! aws-sig@2.0.0 !*/
+/*! aws-sig@2.0.1 !*/
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
