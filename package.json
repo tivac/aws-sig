@@ -1,6 +1,6 @@
 {
   "name": "aws-sig",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "AWS sigv4 signing, optimized for size",
   "author": "Pat Cavit <npm@patcavit.com>",
   "license": "MIT",
