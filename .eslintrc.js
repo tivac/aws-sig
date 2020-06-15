@@ -25,5 +25,5 @@ module.exports = {
 
         "func-style"       : [ "warn", "expression", ],
         "arrow-body-style" : "off",
-    }
+    },
 };
