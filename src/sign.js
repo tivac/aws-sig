@@ -5,15 +5,12 @@ import { sorted } from "./request/headers.js";
 import stringToSign from "./lib/stringtosign.js";
 import signature from "./lib/signature.js";
 import validate from "./lib/validate.js";
-
-const dateCleanRegex = /[:\-]|\.\d{3}/g;
+import xamzdate from "./lib/header-x-amz-date.js";
 
 const parseDate = ({ headers : { "X-Amz-Date" : amzdate, Date : date } }) => {
     const datetime = amzdate ?
         amzdate :
-        (new Date(date || Date.now()))
-            .toISOString()
-            .replace(dateCleanRegex, "");
+        xamzdate(date);
 
     return {
         short : datetime.split("T")[0],
