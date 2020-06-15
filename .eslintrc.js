@@ -9,7 +9,7 @@ module.exports = {
     },
 
     globals : {
-        ISTESTING : true
+        ISTESTING : true,
     },
 
     env : {
@@ -20,10 +20,10 @@ module.exports = {
 
     rules : {
         "no-unused-vars" : [ "warn", {
-            varsIgnorePattern : "_"
-        } ],
+            varsIgnorePattern : "_",
+        }],
 
-        "func-style" : [ "warn", "expression" ],
-        "arrow-body-style" : "off"
+        "func-style"       : [ "warn", "expression", ],
+        "arrow-body-style" : "off",
     }
 };

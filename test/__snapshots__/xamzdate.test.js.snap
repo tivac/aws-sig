@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`aws-sig core API should convert JS Date objects into X-Amz-Date format 1`] = `"19941115T081231Z"`;
+
+exports[`aws-sig core API should use Date.now() if a date isn't specified 1`] = `"19941115T081231Z"`;
