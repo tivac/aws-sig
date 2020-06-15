@@ -18,7 +18,7 @@ var create = Object.create || (function () {
 
 		return subtype;
 	};
-}())
+}());
 
 /**
  * CryptoJS namespace.
@@ -602,7 +602,7 @@ var BufferedBlockAlgorithm = C_lib.BufferedBlockAlgorithm = Base.extend({
  *
  * @property {number} blockSize The number of 32-bit words this hasher operates on. Default: 16 (512 bits)
  */
-var Hasher = C_lib.Hasher = BufferedBlockAlgorithm.extend({
+C_lib.Hasher = BufferedBlockAlgorithm.extend({
 	/**
 	 * Configuration options.
 	 */
