@@ -4,7 +4,7 @@ Teeny-tiny library for signing requests to Amazon Web Services using the [signat
 
 No serious, it's really small!
 
-![Bundle Size](http://img.badgesize.io/tivac/aws-sig/master/dist/aws-sig.umd.js?color=blue) ![Gzipped Bundle Size](http://img.badgesize.io/tivac/aws-sig/master/dist/aws-sig.umd.js?compression=gzip&color=blue&max=5000&softmax=4000)
+![Bundle Size](http://img.badgesize.io/tivac/aws-sig/main/dist/aws-sig.umd.js?color=blue) ![Gzipped Bundle Size](http://img.badgesize.io/tivac/aws-sig/main/dist/aws-sig.umd.js?compression=gzip&color=blue&max=5000&softmax=4000)
 
 ## 🙋 Why?
 
