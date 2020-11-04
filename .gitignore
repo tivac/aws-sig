@@ -59,3 +59,9 @@ typings/
 
 # Compiled output
 dist/
+
+# stryker temp files
+.stryker-tmp
+
+# stryker reports
+reports
