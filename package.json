@@ -39,7 +39,7 @@
     "babel-plugin-add-module-exports": "^1.0.2",
     "crypto-js": "3.1.9-1",
     "dedent": "^0.7.0",
-    "eslint": "^7.1.0",
+    "eslint": "^8.1.0",
     "jest": "^27.0.3",
     "read-dir-deep": "^7.0.1",
     "require-from-string": "^2.0.2",
