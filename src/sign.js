@@ -1,4 +1,4 @@
-import testing from "consts:testing";
+import { TEST } from "./environment.js";
 
 import request from "./request/request.js";
 import { sorted } from "./request/headers.js";
@@ -55,7 +55,7 @@ const sign = (source, config, { before, after }) => {
 
     // Add partial output to response for tests so each step can be validated
     /* istanbul ignore next */
-    if(testing) {
+    if(TEST) {
         details.test = {
             canonical,
             sts,
@@ -72,7 +72,7 @@ const sign = (source, config, { before, after }) => {
     };
 
     /* istanbul ignore next */
-    if(testing) {
+    if(TEST) {
         out.test = details.test;
     }
 

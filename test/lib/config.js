@@ -1,5 +1,3 @@
-"use strict";
-
 const config  = {
     region          : "us-east-1",
     service         : "service",
@@ -7,6 +5,6 @@ const config  = {
     secretAccessKey : "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
 };
 
-module.exports = (args = {}) => {
+export default (args = {}) => {
     return Object.assign(Object.create(null), config, args);
 };

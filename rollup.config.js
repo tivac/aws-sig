@@ -1,13 +1,17 @@
 "use strict";
 
-const pkg = require("./package.json");
-const env = require("./build/rollup-environment.js");
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import cjs from "@rollup/plugin-commonjs";
+import buble from "@rollup/plugin-buble";
+import { terser } from "rollup-plugin-terser";
+
+import pkg from "./package.json";
 
 const banner = `/*! aws-sig@${pkg.version} !*/`;
 
 const input = "./src/aws-sig.js";
 
-module.exports = [
+export default [
     // ESM & CJS builds
     {
         input : [
@@ -35,7 +39,8 @@ module.exports = [
         }],
 
         plugins : [
-            env,
+            nodeResolve(),
+            cjs(),
         ],
     },
 
@@ -52,11 +57,10 @@ module.exports = [
         },
 
         plugins : [
-            env,
-            require("rollup-plugin-node-resolve")(),
-            require("rollup-plugin-commonjs")(),
-            require("rollup-plugin-buble")(),
-            require("rollup-plugin-terser").terser({
+            nodeResolve(),
+            cjs(),
+            buble(),
+            terser({
                 output : {
                     comments : /^!/,
                 },

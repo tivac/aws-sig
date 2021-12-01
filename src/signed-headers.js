@@ -1,5 +1,4 @@
-import testing from "consts:testing";
-
+import { TEST } from "./environment.js";
 import { signed } from "./request/headers.js";
 import credential from "./lib/credential.js";
 
@@ -35,7 +34,7 @@ const after = (details) => {
 
     // Add partial output to response for tests so each step can be validated
     /* istanbul ignore next */
-    if(testing) {
+    if(TEST) {
         details.test.auth = auth;
     }
 
