@@ -1,10 +1,3 @@
-import { signedHeaders } from "./signed-headers.js";
-import { signedQuery } from "./signed-query.js";
-import xamzdate from "./lib/header-x-amz-date.js";
-
-export {
-    signedHeaders,
-    signedQuery,
-
-    xamzdate as headerXAmzDate,
-};
+export { signedHeaders } from "./signed-headers.js";
+export { signedQuery } from "./signed-query.js";
+export { default as headerXAmzDate } from "./lib/header-x-amz-date.js";
