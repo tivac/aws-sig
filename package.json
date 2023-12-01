@@ -41,7 +41,7 @@
     "dedent": "^1.5.1",
     "eslint": "^8.1.0",
     "jest": "^28.0.3",
-    "read-dir-deep": "^7.0.1",
+    "read-dir-deep": "^8.0.0",
     "require-from-string": "^2.0.2",
     "rollup": "^2.2.0",
     "rollup-plugin-buble": "^0.19.8",
