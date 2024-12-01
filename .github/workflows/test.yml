@@ -58,7 +58,7 @@ jobs:
       run: npm test -- --ci --coverage
     
     - name: Upload Coverage
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       if: matrix.os == 'ubuntu-latest' && matrix.node_version == '22'
       with:
         files: ./coverage/coverage-final.json
